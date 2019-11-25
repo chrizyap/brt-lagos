@@ -1,0 +1,20 @@
+import 'package:flutter/material.dart';
+
+
+class AboutPage extends StatelessWidget {
+
+  final String pageText;
+  AboutPage(this.pageText);
+@override
+Widget build(BuildContext context){
+  return new Scaffold(
+    appBar: new AppBar(title: new Text(pageText),
+      backgroundColor: Colors.blue[900],
+    ),
+    body:  new Center(
+      child: new Text(pageText),
+    ),
+  );
+}
+
+}
