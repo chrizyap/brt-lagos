@@ -1,39 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'home.dart';
 
-class DataListView extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: new Scaffold(
-        appBar: AppBar(
-          title: Text("Where to?"),
-          backgroundColor: Colors.blue[900],
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {
-                  showSearch(context: context, delegate: DataSearch());
-                }),
-
-            //Use navigator.pop to return to home after search value is added
-            //or you could use the close method
-          ],
-        ),
-        // body: TextField(),
-      ),
-    );
-  }
-
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return null;
-  }
-}
-
-class DataSearch extends SearchDelegate<String> {
+//DataSearch is an extension of search
+class DataSearch extends SearchDelegate {
+  String value = "";
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -58,12 +27,12 @@ class DataSearch extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    //return value back to text field
+    value = query;
+    close(context, value);
 
-    //close(context, this.query)
+    //Navigator.pop(context);
 
-    Navigator.pop(context, query);
-    //and then display build result in text field.
+    return Text((value));
   }
 
   @override

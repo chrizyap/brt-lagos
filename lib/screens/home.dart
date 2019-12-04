@@ -13,9 +13,13 @@ import 'listView.dart';
 class MyHomePage extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
+
+  // String value;
 }
 
 class _MyAppState extends State<MyHomePage> {
+  String value = "";
+  _MyAppState({this.value});
   Completer<GoogleMapController> _controller = Completer();
 
   static const LatLng _center = const LatLng(6.5244, 3.3792);
@@ -518,7 +522,9 @@ class _MyAppState extends State<MyHomePage> {
                 child: TextField(
                   onTap: () {
                     showSearch(context: context, delegate: DataSearch());
+                    return (value);
                   },
+
                   cursorColor: Colors.black,
                   //controller: appState.locationController,
                   decoration: InputDecoration(
@@ -557,17 +563,21 @@ class _MyAppState extends State<MyHomePage> {
                   ],
                 ),
                 child: TextField(
+                  //Pushing the second screen and wait for the result
                   cursorColor: Colors.black,
                   //controller: appState.destinationController,
                   textInputAction: TextInputAction.go,
-                  onSubmitted: (value) {
-                    //appState.sendRequest(value);
-                  },
+                  onSubmitted: (query) {},
 
                   onTap: () {
                     showSearch(context: context, delegate: DataSearch());
                   },
 
+/*
+                  onChanged: (text) {
+                    value = text;
+                  },
+                  */
                   decoration: InputDecoration(
                     icon: Container(
                       margin: EdgeInsets.only(left: 20, top: 5),
@@ -591,38 +601,3 @@ class _MyAppState extends State<MyHomePage> {
     );
   }
 }
-
-/*
-                    FloatingActionButton(
-                      onPressed: _onMapTypeButtonPressed,
-                      materialTapTargetSize: MaterialTapTargetSize.padded,
-                      backgroundColor: Colors.blue,
-                      child: const Icon(Icons.map, size: 36.0),
-                    ),
-                    */
-
-/*
-            ListView.builder(
-              itemBuilder: (context, index) {
-               return Card(
-                 child: Column{
-                   children: <Widget>[
-                     Text('TBS Terminal')
-
-
-                   ],  
-                 },
-               ); 
-              },
-            ),
-
-*/
-
-/*
-    I NEED THIS TO DIMISS THE KEYBAORD
-        GestureDetector(
-          onTap: (){
-            FocusScope.of(context).requestFocus(_blankFocusNode);
-          },
-          behavior: HitTestBehavior.opaque,
-          */
