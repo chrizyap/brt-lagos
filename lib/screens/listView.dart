@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 //DataSearch is an extension of search
 class DataSearch extends SearchDelegate {
   String value = "";
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -28,6 +29,7 @@ class DataSearch extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     value = query;
+
     close(context, value);
 
     //Navigator.pop(context);

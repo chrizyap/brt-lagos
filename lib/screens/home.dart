@@ -11,6 +11,8 @@ import 'settings.dart';
 import 'listView.dart';
 
 class MyHomePage extends StatefulWidget {
+  final String value;
+  MyHomePage({this.value = ""});
   @override
   _MyAppState createState() => _MyAppState();
 
@@ -18,9 +20,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyHomePage> {
-  String value = "";
-  _MyAppState({this.value});
+  void initState() {
+    super.initState();
+    value.text = "";
+  }
+
   Completer<GoogleMapController> _controller = Completer();
+  static TextEditingController value = TextEditingController();
 
   static const LatLng _center = const LatLng(6.5244, 3.3792);
 
@@ -522,7 +528,6 @@ class _MyAppState extends State<MyHomePage> {
                 child: TextField(
                   onTap: () {
                     showSearch(context: context, delegate: DataSearch());
-                    return (value);
                   },
 
                   cursorColor: Colors.black,
