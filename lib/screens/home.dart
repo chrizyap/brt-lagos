@@ -526,8 +526,9 @@ class _MyAppState extends State<MyHomePage> {
                   ],
                 ),
                 child: TextField(
-                  onTap: () {
-                    showSearch(context: context, delegate: DataSearch());
+                  onTap: ()async{
+                    dynamic result = await showSearch(context: context, delegate: DataSearch());
+                    print(result);
                   },
 
                   cursorColor: Colors.black,
