@@ -526,8 +526,9 @@ class _MyAppState extends State<MyHomePage> {
                   ],
                 ),
                 child: TextField(
-                  onTap: ()async{
-                    dynamic result = await showSearch(context: context, delegate: DataSearch());
+                  onTap: () async {
+                    dynamic result = await showSearch(
+                        context: context, delegate: DataSearch());
                     print(result);
                   },
 
@@ -575,8 +576,10 @@ class _MyAppState extends State<MyHomePage> {
                   textInputAction: TextInputAction.go,
                   onSubmitted: (query) {},
 
-                  onTap: () {
-                    showSearch(context: context, delegate: DataSearch());
+                  onTap: () async {
+                    dynamic result = await showSearch(
+                        context: context, delegate: DataSearch());
+                    print(result);
                   },
 
 /*
