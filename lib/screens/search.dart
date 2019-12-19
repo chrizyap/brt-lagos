@@ -1,8 +1,10 @@
+import 'home.dart';
 import 'package:flutter/material.dart';
 
 //DataSearch is an extension of search
 class DataSearch extends SearchDelegate {
   String value = "";
+  //final searchController = TextEditingController();
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -18,6 +20,10 @@ class DataSearch extends SearchDelegate {
 
   @override
   Widget buildLeading(BuildContext context) {
+    TextField(
+        //controller: searchController,
+        );
+
     return IconButton(
       icon: Icon(Icons.arrow_back),
       onPressed: () {
@@ -28,37 +34,11 @@ class DataSearch extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    // value = query;
-    print(query);
+    value = (query);
 
-    
-    final suggestionList = query.isEmpty
-        ? recentBusStops
-        : busstops.where((p) => p.toLowerCase().startsWith(query)).toList();
-
-    //Navigator.pop(context);
-    return ListView.builder(
-      itemBuilder: (context, index) => ListTile(
-        onTap: () {
-          // showResults(context);
-          close(context, suggestionList[index]);
-        },
-        leading: Icon(Icons.directions_bus),
-        title: RichText(
-          text: TextSpan(
-              text: suggestionList[index].substring(0, query.length),
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-              children: [
-                TextSpan(
-                    text: suggestionList[index].substring(query.length),
-                    style: TextStyle(color: Colors.grey)),
-              ]),
-        ),
-      ),
-      itemCount: suggestionList.length,
-    );
-
+    Navigator.pop(context);
+    print('context:::popped');
+    return Text(value);
   }
 
   @override
@@ -72,9 +52,7 @@ class DataSearch extends SearchDelegate {
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
         onTap: () {
-          query = suggestionList[index];
           showResults(context);
-          close(context, suggestionList[index]);
         },
         leading: Icon(Icons.directions_bus),
         title: RichText(
@@ -92,7 +70,6 @@ class DataSearch extends SearchDelegate {
       itemCount: suggestionList.length,
     );
   }
-
 }
 
 final busstops = [
