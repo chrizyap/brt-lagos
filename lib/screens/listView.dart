@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 //DataSearch is an extension of search
 class DataSearch extends SearchDelegate {
-  String value = "";
-
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -28,10 +26,8 @@ class DataSearch extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    // value = query;
     print(query);
 
-    
     final suggestionList = query.isEmpty
         ? recentBusStops
         : busstops.where((p) => p.toLowerCase().startsWith(query)).toList();
@@ -58,7 +54,6 @@ class DataSearch extends SearchDelegate {
       ),
       itemCount: suggestionList.length,
     );
-
   }
 
   @override
@@ -92,7 +87,6 @@ class DataSearch extends SearchDelegate {
       itemCount: suggestionList.length,
     );
   }
-
 }
 
 final busstops = [
@@ -103,7 +97,7 @@ final busstops = [
   "Iponri",
   "Stadium",
   "Barracks",
-  "moshalashiTerminal",
+  "Moshalashi Terminal",
   "Fadeyi",
   "Onipanu",
   "Palmgrove",
@@ -131,5 +125,3 @@ final recentBusStops = [
   "Palmgrove",
   "Obanikoro",
 ];
-
-//noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);

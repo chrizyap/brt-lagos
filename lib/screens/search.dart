@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 //DataSearch is an extension of search
 class DataSearch extends SearchDelegate {
   String value = "";
-  //final searchController = TextEditingController();
 
   @override
   List<Widget> buildActions(BuildContext context) {
