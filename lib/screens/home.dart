@@ -161,25 +161,37 @@ class _MyAppState extends State<MyHomePage> {
                         if (_fromMarker != null) {
                           _markers.remove(_fromMarker);
                         }
-                        Marker newMarker = Marker(
-                            // This marker id can be anything that uniquely identifies each marker.
-                            markerId: MarkerId(
-                              ('$result'),
-                            ),
-                            //make position respond to user selection
-                            position: BusStops.busStopMap[result],
-                            infoWindow: InfoWindow(
-                              title: ('$result'),
-                              //snippet: '5 Star Rating',
-                            ),
-                            icon: BitmapDescriptor.defaultMarkerWithHue(
-                                BitmapDescriptor.hueBlue));
-                        _fromMarker = newMarker;
-                        _markers.add(newMarker);
+                        if ((_fromMarker != null &&
+                                BusStops.busStopMap[result] !=
+                                    _toMarker.position) ||
+                            _fromMarker == null) {
+                          Marker newMarker = Marker(
+                              // This marker id can be anything that uniquely identifies each marker.
+                              markerId: MarkerId(
+                                ('$result'),
+                              ),
+                              //make position respond to user selection
+                              position: BusStops.busStopMap[result],
+                              infoWindow: InfoWindow(
+                                title: ('$result'),
+                                //snippet: '5 Star Rating',
+                              ),
+                              icon: BitmapDescriptor.defaultMarkerWithHue(
+                                  BitmapDescriptor.hueBlue));
+                          _fromMarker = newMarker;
+                          _markers.add(newMarker);
+                        } else {
+                          print("You can't choose the same bus stop!");
+                          //Add toast to show user you can't do this.
+                        }
+                        if (_fromMarker != null && _toMarker != null) {
+                          _getPolyline();
+                        }
                       });
                     }
 
                     whereFromSelected();
+                    polylineCoordinates.clear();
                   },
 
                   cursorColor: Colors.black,
