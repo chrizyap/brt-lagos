@@ -1,11 +1,10 @@
-import 'dart:async';
 import 'package:brtbus/core/busStops.dart';
 import 'package:brtbus/screens/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:brtbus/themes.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'info.dart';
 import 'about.dart';
 import 'settings.dart';
@@ -16,47 +15,47 @@ class MyHomePage extends StatefulWidget {
   MyHomePage({this.value = ""});
   @override
   _MyAppState createState() => _MyAppState();
-
-  // String value;
 }
 
 class _MyAppState extends State<MyHomePage> {
   var going = TextEditingController();
   var coming = TextEditingController();
-  void initState() {
-    super.initState();
-  }
 
-  Completer<GoogleMapController> _controller = Completer();
+  GoogleMapController mapController;
+
+  final Set<Marker> _markers = {};
+
+  Marker _toMarker;
+  Marker _fromMarker;
+
+  final Map<PolylineId, Polyline> polylines = {};
+  List<LatLng> polylineCoordinates = [];
+  PolylinePoints polylinePoints = PolylinePoints();
+  String googleAPiKey = "AIzaSyAVTGrgDL3-VpSWaEjdvgHDJxc_ffzWGmE";
+
+  //static LatLng _tbsTerminal = LatLng(6.445721, 3.401200);
+  //static LatLng _cmsTerminal = LatLng(6.451145, 3.389201);
 
   static const LatLng _center = const LatLng(6.5244, 3.3792);
 
-  final Set<Marker> _markers = {};
-  Marker _toMarker;
-  Marker _fromMarker;
+  @override
+  void initState() {
+    super.initState();
+  }
 
   MapType _currentMapType = MapType.normal;
 
 //GET THE USERS LOCATION
   void getCurrentLocation() async {
     print("GET USER METHOD RUNNING =========");
-
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-
-    //LatLng _userLocation = LatLng(position.longitude, position.latitude);
     print(
         "the longitude is: ${position.longitude} and the latitude is: ${position.latitude} ");
   }
 
   void _onCameraMove(CameraPosition position) {
     //_lastMapPosition = position.target;
-  }
-
-  void _onMapCreated(GoogleMapController controller) {
-    _controller.complete(controller);
-
-    getCurrentLocation();
   }
 
   @override
@@ -128,6 +127,7 @@ class _MyAppState extends State<MyHomePage> {
               ),
               mapType: _currentMapType,
               markers: _markers,
+              polylines: Set<Polyline>.of(polylines.values),
               onCameraMove: _onCameraMove,
             ),
             Positioned(
@@ -155,7 +155,7 @@ class _MyAppState extends State<MyHomePage> {
                         context: context, delegate: DataSearch());
                     going.text = result;
 
-                    print(result);
+                    print('Where from: $result');
                     void whereFromSelected() {
                       setState(() {
                         if (_fromMarker != null) {
@@ -231,7 +231,7 @@ class _MyAppState extends State<MyHomePage> {
                     dynamic result = await showSearch(
                         context: context, delegate: DataSearch());
                     coming.text = going.text != result ? result : '';
-                    print(result);
+                    print('Where to: $result');
                     void whereToSelected() {
                       setState(() {
                         if (_toMarker != null) {
@@ -258,11 +258,16 @@ class _MyAppState extends State<MyHomePage> {
                           _markers.add(newMarker);
                         } else {
                           print("You can't choose the same bus stop!");
+                          //Add toast to show user you can't do this.
                         }
+
+                        _getPolyline();
                       });
                     }
 
                     whereToSelected();
+
+                    polylineCoordinates.clear();
                   },
 
                   decoration: InputDecoration(
@@ -286,5 +291,36 @@ class _MyAppState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  void _onMapCreated(GoogleMapController controller) async {
+    mapController = controller;
+  }
+
+  _addPolyLine() {
+    PolylineId id = PolylineId("poly");
+    Polyline polyline = Polyline(
+      polylineId: id,
+      color: Colors.blue,
+      width: 4,
+      points: polylineCoordinates,
+    );
+    polylines[id] = polyline;
+    setState(() {});
+  }
+
+  _getPolyline() async {
+    List<PointLatLng> result1 = await polylinePoints.getRouteBetweenCoordinates(
+        googleAPiKey,
+        _fromMarker.position.latitude,
+        _fromMarker.position.longitude,
+        _toMarker.position.latitude,
+        _toMarker.position.longitude);
+    if (result1.isNotEmpty) {
+      result1.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+    }
+    _addPolyLine();
   }
 }
