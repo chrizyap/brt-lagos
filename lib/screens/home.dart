@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:brtbus/core/busStops.dart';
 import 'package:brtbus/screens/settings.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyHomePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  _showSnackBar() {
+    final snackBar = new SnackBar(
+      content: new Text("Sorry, you can't choose the same bus stop!"),
+      duration: new Duration(seconds: 3),
+      backgroundColor: Colors.red,
+    );
+    //How to display snackbar.
+    _scaffoldKey.currentState.showSnackBar(snackBar);
+  }
+
   var going = TextEditingController();
   var coming = TextEditingController();
 
@@ -64,7 +77,9 @@ class _MyAppState extends State<MyHomePage> {
     //SystemChannels.textInput.invokeMethod('TextInput.hide');
     //FocusScope.of(context).unfocus();
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
+        key: _scaffoldKey,
         backgroundColor: Colors.black,
         appBar: AppBar(
           title: Text('BRT Lagos'),
@@ -120,7 +135,7 @@ class _MyAppState extends State<MyHomePage> {
             GoogleMap(
               onMapCreated: _onMapCreated,
               myLocationEnabled: true,
-              compassEnabled: true,
+              //compassEnabled: true,
               initialCameraPosition: CameraPosition(
                 target: _center,
                 zoom: 12.0,
@@ -129,6 +144,123 @@ class _MyAppState extends State<MyHomePage> {
               markers: _markers,
               polylines: Set<Polyline>.of(polylines.values),
               onCameraMove: _onCameraMove,
+            ),
+            Positioned(
+              //Deatails Card
+              bottom: 75.0,
+              right: 20,
+              left: 20,
+
+              child: Container(
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Icon(
+                          Icons.timer,
+                          color: Colors.blue[900],
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Text(
+                          '1hr 20m (10km)',
+                          style: TextStyle(
+                            fontFamily: '',
+                            fontSize: 25.0,
+                            color: Colors.blue[900],
+                          ),
+                        ),
+                        SizedBox(
+                          width: 80.0,
+                          height: 75.0,
+                        ),
+                        Icon(
+                          Icons.cancel,
+                          color: Colors.red,
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Icon(
+                          Icons.attach_money,
+                          color: Colors.blue[900],
+                        ),
+                        SizedBox(
+                          width: 15.0,
+                        ),
+                        Text(
+                          '500',
+                          style: TextStyle(
+                            fontFamily: '',
+                            fontSize: 25.0,
+                            color: Colors.blue[900],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 15.0),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Icon(
+                          Icons.directions_bus,
+                          color: Colors.blue[900],
+                        ),
+                        SizedBox(
+                          width: 15.0,
+                        ),
+                        Text(
+                          '3',
+                          style: TextStyle(
+                            fontFamily: '',
+                            fontSize: 25.0,
+                            color: Colors.blue[900],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: 270.0,
+                        ),
+                        Icon(
+                          Icons.arrow_forward,
+                          color: Colors.green,
+                        ),
+                        SizedBox(
+                          width: 15.0,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+
+                //MOve the box decoration thats th po
+
+                // child: Text("Details go here"),
+                width: 350,
+                height: 200,
+                alignment: Alignment.center,
+                decoration: new BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
             ),
             Positioned(
               top: 50.0,
@@ -153,6 +285,7 @@ class _MyAppState extends State<MyHomePage> {
                   onTap: () async {
                     dynamic result = await showSearch(
                         context: context, delegate: DataSearch());
+
                     going.text = result;
 
                     print('Where from: $result');
@@ -181,8 +314,10 @@ class _MyAppState extends State<MyHomePage> {
                           _fromMarker = newMarker;
                           _markers.add(newMarker);
                         } else {
-                          print("You can't choose the same bus stop!");
+                          _showSnackBar();
+                          print("Snackbar Displayed");
                           //Add toast to show user you can't do this.
+
                         }
                         if (_fromMarker != null && _toMarker != null) {
                           _getPolyline();
@@ -269,8 +404,11 @@ class _MyAppState extends State<MyHomePage> {
                           _toMarker = newMarker;
                           _markers.add(newMarker);
                         } else {
-                          print("You can't choose the same bus stop!");
+                          print("Snack Bar Displayed");
+                          _showSnackBar();
                           //Add toast to show user you can't do this.
+
+                          polylineCoordinates.clear();
                         }
 
                         _getPolyline();
