@@ -87,6 +87,7 @@ class _MyAppState extends State<MyHomePage> {
     //SystemChannels.textInput.invokeMethod('TextInput.hide');
     //FocusScope.of(context).unfocus();
     return MaterialApp(
+      theme: ThemeData(fontFamily: 'Montserrat'),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         key: _scaffoldKey,
@@ -190,7 +191,7 @@ class _MyAppState extends State<MyHomePage> {
                             style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w500,
-                              fontSize: 25.0,
+                              fontSize: 20.0,
                               color: Colors.blue[900],
                             ),
                           ),
@@ -227,18 +228,18 @@ class _MyAppState extends State<MyHomePage> {
                         Expanded(
                           flex: 1,
                           child: Icon(
-                            Icons.attach_money,
+                            Icons.directions_bus,
                             color: Colors.blue[900],
                           ),
                         ),
                         Expanded(
                           flex: 6,
                           child: Text(
-                            '500',
+                            '3',
                             style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w500,
-                              fontSize: 25.0,
+                              fontSize: 20.0,
                               color: Colors.blue[900],
                             ),
                           ),
@@ -253,24 +254,27 @@ class _MyAppState extends State<MyHomePage> {
                         Expanded(
                           flex: 1,
                           child: Icon(
-                            Icons.directions_bus,
+                            Icons.attach_money,
                             color: Colors.blue[900],
                           ),
                         ),
                         Expanded(
                           flex: 6,
                           child: Text(
-                            '3',
+                            '500',
                             style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w500,
-                              fontSize: 25.0,
+                              fontSize: 20.0,
                               color: Colors.blue[900],
                             ),
                           ),
                         ),
                       ],
                     ),
+                    // Divider(
+                    //   color: Colors.grey,
+                    // ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
@@ -299,6 +303,13 @@ class _MyAppState extends State<MyHomePage> {
                 decoration: new BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(35.0),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.blue[900],
+                        offset: Offset(1.0, 5.0),
+                        blurRadius: 10,
+                        spreadRadius: 3)
+                  ],
                 ),
               ),
             ),
@@ -345,10 +356,10 @@ class _MyAppState extends State<MyHomePage> {
                               ),
                               //make position respond to user selection
                               position: BusStops.busStopMap[result],
-                              infoWindow: InfoWindow(
-                                title: ('$result'),
-                                //snippet: '5 Star Rating',
-                              ),
+                              infoWindow: InfoWindow(title: ('$result')
+
+                                  //snippet: '5 Star Rating',
+                                  ),
                               icon: BitmapDescriptor.defaultMarkerWithHue(
                                   BitmapDescriptor.hueBlue));
                           _fromMarker = newMarker;
@@ -381,7 +392,7 @@ class _MyAppState extends State<MyHomePage> {
                         color: Colors.blue[900],
                       ),
                     ),
-                    hintText: "Where from?",
+                    hintText: ("Where from?"),
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.only(left: 15.0, top: 10.0),
                   ),
