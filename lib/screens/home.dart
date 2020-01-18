@@ -185,8 +185,9 @@ class _MyAppState extends State<MyHomePage> {
                           flex: 5,
                           child: Text(
                             '1hr 20m (10km)',
-                            style: new TextStyle(
-                              fontFamily: 'Montserrat Bold',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w400,
                               fontSize: 25.0,
                               color: Colors.blue[900],
                             ),
@@ -233,7 +234,7 @@ class _MyAppState extends State<MyHomePage> {
                           child: Text(
                             '500',
                             style: TextStyle(
-                              fontFamily: '',
+                              fontFamily: 'Montserrat',
                               fontSize: 25.0,
                               color: Colors.blue[900],
                             ),

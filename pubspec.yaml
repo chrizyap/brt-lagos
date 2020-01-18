@@ -60,50 +60,51 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Montserrat Regular
-      fonts:
-        - asset: fonts/Montserrat-Regular
-        - asset: fonts/Montserrat-Italic
-        - weight: 400
-
-    - family: Montserrat Light
+    - family: Montserrat
       fonts:
         - asset: fonts/Montserrat-Light
+        - weight: 300
+        - asset: fonts/Montserrat-Regular
+        - weight: 400
+
         - asset: fonts/Montserrat-LightItalic
         - asset: fonts/Montserrat-ExtraLightItalic
         - weight: 300
+        - style: italic
 
-    - family: Montserrat Bold
-      fonts:
-        - asset: fonts/Montserrat-ExtraBoldItalic
         - asset: fonts/Montserrat-ExtraBold
         - asset: fonts/Montserrat-Bold
-        - asset: fonts/Montserrat-BoldItalic
         - weight: 700
 
-    - family: Montserrat Semi-Bold
-      fonts:
+        - asset: fonts/Montserrat-BoldItalic
+        - asset: fonts/Montserrat-ExtraBoldItalic
+        - weight: 700
+        - style: italic
+
         - asset: fonts/Montserrat-SemiBold
+        - weight: 600
         - asset: fonts/Montserrat-SemiBoldItalic
         - weight: 600
+        - style: italic
 
-    - family: Montserrat Thin
-      fonts:
         - asset: fonts/Montserrat-Thin
+        - weight: 100
         - asset: fonts/Montserrat-ThinItalic
         - weight: 100
+        - style: italic
 
-    - family: Montserrat Medium
-      fonts:
         - asset: fonts/Montserrat-Medium
+        - weight: 500
         - asset: fonts/Montserrat-MediumItalic
         - weight: 500
+        - style: italic
 
-    - family: Montserrat Medium
-      fonts:
         - asset: fonts/Montserrat-Black
+        - weight: 900
+
         - asset: fonts/Montserrat-BlackItalic.ttf
         - weight: 900
+        - style: italic
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
