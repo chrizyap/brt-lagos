@@ -11,6 +11,7 @@ import 'info.dart';
 import 'about.dart';
 import 'settings.dart';
 import 'listView.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class MyHomePage extends StatefulWidget {
   final String value;
@@ -29,7 +30,14 @@ class _MyAppState extends State<MyHomePage> {
     );
     //How to display snackbar.
     _scaffoldKey.currentState.showSnackBar(snackBar);
+    if (isShowingCard == true) {
+      setState(() {
+        isShowingCard = false;
+      });
+    }
   }
+
+  bool isShowingCard = false;
 
   var going = TextEditingController();
   var coming = TextEditingController();
@@ -145,102 +153,131 @@ class _MyAppState extends State<MyHomePage> {
               polylines: Set<Polyline>.of(polylines.values),
               onCameraMove: _onCameraMove,
             ),
-            Positioned(
+            AnimatedPositioned(
+              duration: Duration(milliseconds: 700),
               //Deatails Card
-              bottom: 75.0,
-              right: 20,
-              left: 20,
+              //bottom: isShowingCard?75.0:
+              top: isShowingCard
+                  ? MediaQuery.of(context).size.height - 300
+                  : MediaQuery.of(context).size.height,
 
               child: Container(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        Icon(
-                          Icons.timer,
-                          color: Colors.blue[900],
-                        ),
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        Text(
-                          '1hr 20m (10km)',
-                          style: TextStyle(
-                            fontFamily: '',
-                            fontSize: 25.0,
+                        // SizedBox(
+                        //   width: 10.0,
+                        // ),
+                        Expanded(
+                          flex: 1,
+                          child: Icon(
+                            Icons.timer,
                             color: Colors.blue[900],
                           ),
                         ),
-                        SizedBox(
-                          width: 80.0,
-                          height: 75.0,
+                        // SizedBox(
+                        //   width: 10.0,
+                        // ),
+                        Expanded(
+                          flex: 5,
+                          child: Text(
+                            '1hr 20m (10km)',
+                            style: new TextStyle(
+                              fontFamily: 'Montserrat Bold',
+                              fontSize: 25.0,
+                              color: Colors.blue[900],
+                            ),
+                          ),
                         ),
-                        Icon(
-                          Icons.cancel,
-                          color: Colors.red,
+                        // SizedBox(
+                        //   width: 80.0,
+                        //   height: 75.0,
+                        // ),
+                        Expanded(
+                          flex: 1,
+                          child: IconButton(
+                              iconSize: 30,
+                              onPressed: () {
+                                print('close button pressed');
+                                setState(() {
+                                  isShowingCard = false;
+                                });
+                              },
+                              icon: Icon(
+                                Icons.close,
+                              ),
+                              color: Colors.red),
                         ),
                         SizedBox(
                           width: 10.0,
                         ),
                       ],
                     ),
+                    Divider(
+                      color: Colors.grey,
+                    ),
                     Row(
                       children: <Widget>[
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        Icon(
-                          Icons.attach_money,
-                          color: Colors.blue[900],
-                        ),
-                        SizedBox(
-                          width: 15.0,
-                        ),
-                        Text(
-                          '500',
-                          style: TextStyle(
-                            fontFamily: '',
-                            fontSize: 25.0,
+                        Expanded(
+                          flex: 1,
+                          child: Icon(
+                            Icons.attach_money,
                             color: Colors.blue[900],
+                          ),
+                        ),
+                        Expanded(
+                          flex: 6,
+                          child: Text(
+                            '500',
+                            style: TextStyle(
+                              fontFamily: '',
+                              fontSize: 25.0,
+                              color: Colors.blue[900],
+                            ),
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 15.0),
+                    Divider(
+                      color: Colors.grey,
+                    ),
                     Row(
                       children: <Widget>[
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        Icon(
-                          Icons.directions_bus,
-                          color: Colors.blue[900],
-                        ),
-                        SizedBox(
-                          width: 15.0,
-                        ),
-                        Text(
-                          '3',
-                          style: TextStyle(
-                            fontFamily: '',
-                            fontSize: 25.0,
+                        Expanded(
+                          flex: 1,
+                          child: Icon(
+                            Icons.directions_bus,
                             color: Colors.blue[900],
+                          ),
+                        ),
+                        Expanded(
+                          flex: 6,
+                          child: Text(
+                            '3',
+                            style: TextStyle(
+                              fontFamily: '',
+                              fontSize: 25.0,
+                              color: Colors.blue[900],
+                            ),
                           ),
                         ),
                       ],
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        SizedBox(
-                          width: 270.0,
-                        ),
-                        Icon(
-                          Icons.arrow_forward,
-                          color: Colors.green,
+                        IconButton(
+                          iconSize: 30.0,
+                          onPressed: () {
+                            print('go button pressed');
+                          },
+                          icon: Icon(
+                            Icons.arrow_forward,
+                            color: Colors.green,
+                          ),
                         ),
                         SizedBox(
                           width: 15.0,
@@ -250,27 +287,25 @@ class _MyAppState extends State<MyHomePage> {
                   ],
                 ),
 
-                //MOve the box decoration thats th po
-
                 // child: Text("Details go here"),
-                width: 350,
+                width: MediaQuery.of(context).size.width,
                 height: 200,
                 alignment: Alignment.center,
                 decoration: new BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(35.0),
                 ),
               ),
             ),
             Positioned(
               top: 50.0,
-              right: 15.0,
-              left: 15.0,
+              right: 20.0,
+              left: 20.0,
               child: Container(
                 height: 50.0,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(3.0),
+                  borderRadius: BorderRadius.circular(30.0),
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
@@ -333,7 +368,7 @@ class _MyAppState extends State<MyHomePage> {
                   //controller: appState.locationController,
                   decoration: InputDecoration(
                     icon: Container(
-                      margin: EdgeInsets.only(left: 20, top: 5),
+                      margin: EdgeInsets.only(left: 20, top: 0),
                       width: 10,
                       height: 10,
                       child: Icon(
@@ -343,20 +378,20 @@ class _MyAppState extends State<MyHomePage> {
                     ),
                     hintText: "Where from?",
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.only(left: 15.0, top: 16.0),
+                    contentPadding: EdgeInsets.only(left: 15.0, top: 10.0),
                   ),
                 ),
               ),
             ),
             Positioned(
-              top: 105.0,
-              right: 15.0,
-              left: 15.0,
+              top: 104.0,
+              right: 20.0,
+              left: 20.0,
               child: Container(
                 height: 50.0,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(3.0),
+                  borderRadius: BorderRadius.circular(30.0),
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
@@ -403,6 +438,9 @@ class _MyAppState extends State<MyHomePage> {
                                   BitmapDescriptor.hueBlue));
                           _toMarker = newMarker;
                           _markers.add(newMarker);
+                          setState(() {
+                            isShowingCard = true;
+                          });
                         } else {
                           print("Snack Bar Displayed");
                           _showSnackBar();
@@ -422,7 +460,7 @@ class _MyAppState extends State<MyHomePage> {
 
                   decoration: InputDecoration(
                     icon: Container(
-                      margin: EdgeInsets.only(left: 20, top: 5),
+                      margin: EdgeInsets.only(left: 20, top: 0),
                       width: 10,
                       height: 10,
                       child: Icon(
@@ -432,7 +470,7 @@ class _MyAppState extends State<MyHomePage> {
                     ),
                     hintText: "Where to?",
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.only(left: 15.0, top: 16.0),
+                    contentPadding: EdgeInsets.only(left: 15.0, top: 10.0),
                   ),
                 ),
               ),
