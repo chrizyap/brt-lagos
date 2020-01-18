@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:brtbus/core/busStops.dart';
 import 'package:brtbus/screens/settings.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +9,6 @@ import 'info.dart';
 import 'about.dart';
 import 'settings.dart';
 import 'listView.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class MyHomePage extends StatefulWidget {
   final String value;
@@ -27,6 +24,11 @@ class _MyAppState extends State<MyHomePage> {
       content: new Text("Sorry, you can't choose the same bus stop!"),
       duration: new Duration(seconds: 3),
       backgroundColor: Colors.red,
+      action: SnackBarAction(
+        textColor: Colors.greenAccent,
+        label: 'OK',
+        onPressed: () {},
+      ),
     );
     //How to display snackbar.
     _scaffoldKey.currentState.showSnackBar(snackBar);
@@ -187,7 +189,7 @@ class _MyAppState extends State<MyHomePage> {
                             '1hr 20m (10km)',
                             style: TextStyle(
                               fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.w500,
                               fontSize: 25.0,
                               color: Colors.blue[900],
                             ),
@@ -235,6 +237,7 @@ class _MyAppState extends State<MyHomePage> {
                             '500',
                             style: TextStyle(
                               fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w500,
                               fontSize: 25.0,
                               color: Colors.blue[900],
                             ),
@@ -259,7 +262,8 @@ class _MyAppState extends State<MyHomePage> {
                           child: Text(
                             '3',
                             style: TextStyle(
-                              fontFamily: '',
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w500,
                               fontSize: 25.0,
                               color: Colors.blue[900],
                             ),

@@ -62,44 +62,44 @@ flutter:
   fonts:
     - family: Montserrat
       fonts:
-        - asset: fonts/Montserrat-Light
+        - asset: fonts/Montserrat-Light.ttf
         - weight: 300
-        - asset: fonts/Montserrat-Regular
+        - asset: fonts/Montserrat-Regular.ttf
         - weight: 400
 
-        - asset: fonts/Montserrat-LightItalic
-        - asset: fonts/Montserrat-ExtraLightItalic
+        - asset: fonts/Montserrat-LightItalic.ttf
+        - asset: fonts/Montserrat-ExtraLightItalic.ttf
         - weight: 300
         - style: italic
 
-        - asset: fonts/Montserrat-ExtraBold
-        - asset: fonts/Montserrat-Bold
+        - asset: fonts/Montserrat-ExtraBold.ttf
+        - asset: fonts/Montserrat-Bold.ttf
         - weight: 700
 
-        - asset: fonts/Montserrat-BoldItalic
-        - asset: fonts/Montserrat-ExtraBoldItalic
+        - asset: fonts/Montserrat-BoldItalic.ttf
+        - asset: fonts/Montserrat-ExtraBoldItalic.ttf
         - weight: 700
         - style: italic
 
-        - asset: fonts/Montserrat-SemiBold
+        - asset: fonts/Montserrat-SemiBold.ttf
         - weight: 600
-        - asset: fonts/Montserrat-SemiBoldItalic
+        - asset: fonts/Montserrat-SemiBoldItalic.ttf
         - weight: 600
         - style: italic
 
-        - asset: fonts/Montserrat-Thin
+        - asset: fonts/Montserrat-Thin.ttf
         - weight: 100
-        - asset: fonts/Montserrat-ThinItalic
+        - asset: fonts/Montserrat-ThinItalic.ttf
         - weight: 100
         - style: italic
 
-        - asset: fonts/Montserrat-Medium
+        - asset: fonts/Montserrat-Medium.ttf
         - weight: 500
-        - asset: fonts/Montserrat-MediumItalic
+        - asset: fonts/Montserrat-MediumItalic.ttf
         - weight: 500
         - style: italic
 
-        - asset: fonts/Montserrat-Black
+        - asset: fonts/Montserrat-Black.ttf
         - weight: 900
 
         - asset: fonts/Montserrat-BlackItalic.ttf
