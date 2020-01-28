@@ -9,15 +9,19 @@ import 'info.dart';
 import 'about.dart';
 import 'settings.dart';
 import 'listView.dart';
+import 'package:latlong/latlong.dart' as A;
 
 class MyHomePage extends StatefulWidget {
-  final String value;
-  MyHomePage({this.value = ""});
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyHomePage> {
+  // dynamic meter = A.Distance;
+  // dynamic km = A.Distance;
+  // String meterString = '';
+  final A.Distance distance = new A.Distance();
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   _showSnackBar() {
     final snackBar = new SnackBar(
@@ -30,7 +34,7 @@ class _MyAppState extends State<MyHomePage> {
         onPressed: () {},
       ),
     );
-    //How to display snackbar.
+    // Display snackbar.
     _scaffoldKey.currentState.showSnackBar(snackBar);
     if (isShowingCard == true) {
       setState(() {
@@ -43,6 +47,8 @@ class _MyAppState extends State<MyHomePage> {
 
   var going = TextEditingController();
   var coming = TextEditingController();
+  var textTouch = TextEditingController();
+  bool _textEnabled = false;
 
   GoogleMapController mapController;
 
@@ -83,9 +89,6 @@ class _MyAppState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // var _blankFocusNode = new FocusNode();
-    //SystemChannels.textInput.invokeMethod('TextInput.hide');
-    //FocusScope.of(context).unfocus();
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Montserrat'),
       debugShowCheckedModeBanner: false,
@@ -158,48 +161,19 @@ class _MyAppState extends State<MyHomePage> {
             ),
             AnimatedPositioned(
               duration: Duration(milliseconds: 700),
-              //Deatails Card
-              //bottom: isShowingCard?75.0:
               top: isShowingCard
-                  ? MediaQuery.of(context).size.height - 300
+                  ? MediaQuery.of(context).size.height - 400
                   : MediaQuery.of(context).size.height,
-
               child: Container(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        // SizedBox(
-                        //   width: 10.0,
-                        // ),
-                        Expanded(
-                          flex: 1,
-                          child: Icon(
-                            Icons.timer,
-                            color: Colors.blue[900],
-                          ),
+                        SizedBox(
+                          width: 320.0,
                         ),
-                        // SizedBox(
-                        //   width: 10.0,
-                        // ),
-                        Expanded(
-                          flex: 5,
-                          child: Text(
-                            '1hr 20m (10km)',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 20.0,
-                              color: Colors.blue[900],
-                            ),
-                          ),
-                        ),
-                        // SizedBox(
-                        //   width: 80.0,
-                        //   height: 75.0,
-                        // ),
                         Expanded(
                           flex: 1,
                           child: IconButton(
@@ -215,14 +189,37 @@ class _MyAppState extends State<MyHomePage> {
                               ),
                               color: Colors.red),
                         ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: Icon(
+                            Icons.timer,
+                            color: Colors.blue[900],
+                            size: 30,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Text(
+                            '1hr 20m (10km)',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 28.0,
+                              color: Colors.blue[900],
+                            ),
+                          ),
+                        ),
                         SizedBox(
                           width: 10.0,
                         ),
                       ],
                     ),
-                    Divider(
-                      color: Colors.grey,
-                    ),
+
                     Row(
                       children: <Widget>[
                         Expanded(
@@ -230,6 +227,7 @@ class _MyAppState extends State<MyHomePage> {
                           child: Icon(
                             Icons.directions_bus,
                             color: Colors.blue[900],
+                            size: 30.0,
                           ),
                         ),
                         Expanded(
@@ -239,33 +237,7 @@ class _MyAppState extends State<MyHomePage> {
                             style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w500,
-                              fontSize: 20.0,
-                              color: Colors.blue[900],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      color: Colors.grey,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: Icon(
-                            Icons.attach_money,
-                            color: Colors.blue[900],
-                          ),
-                        ),
-                        Expanded(
-                          flex: 6,
-                          child: Text(
-                            '500',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 20.0,
+                              fontSize: 25.0,
                               color: Colors.blue[900],
                             ),
                           ),
@@ -275,6 +247,30 @@ class _MyAppState extends State<MyHomePage> {
                     // Divider(
                     //   color: Colors.grey,
                     // ),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: Icon(
+                            Icons.attach_money,
+                            color: Colors.blue[900],
+                            size: 30.0,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 6,
+                          child: Text(
+                            '500',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 25.0,
+                              color: Colors.blue[900],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
@@ -295,10 +291,8 @@ class _MyAppState extends State<MyHomePage> {
                     ),
                   ],
                 ),
-
-                // child: Text("Details go here"),
                 width: MediaQuery.of(context).size.width,
-                height: 200,
+                height: 300,
                 alignment: Alignment.center,
                 decoration: new BoxDecoration(
                   color: Colors.white,
@@ -314,22 +308,24 @@ class _MyAppState extends State<MyHomePage> {
               ),
             ),
             Positioned(
-              top: 50.0,
-              right: 20.0,
-              left: 20.0,
+              top: 57.6,
+              right: 40.0,
+              left: 40.0,
               child: Container(
                 height: 50.0,
-                width: double.infinity,
+                width: 397.0,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30.0),
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(15),
+                      topLeft: Radius.circular(15)),
                   color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(1.0, 5.0),
-                        blurRadius: 10,
-                        spreadRadius: 3)
-                  ],
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //       color: Colors.grey,
+                  //       offset: Offset(1.0, 5.0),
+                  //       blurRadius: 7,
+                  //       spreadRadius: 1)
+                  // ],
                 ),
                 child: TextField(
                   controller: going,
@@ -372,12 +368,14 @@ class _MyAppState extends State<MyHomePage> {
                         }
                         if (_fromMarker != null && _toMarker != null) {
                           _getPolyline();
+                          calculateDistanceKM();
+                          calculateDistance();
                         }
                       });
                     }
 
                     whereFromSelected();
-                    polylineCoordinates.clear();
+                    //polylineCoordinates.clear();
                   },
 
                   cursorColor: Colors.black,
@@ -400,80 +398,83 @@ class _MyAppState extends State<MyHomePage> {
               ),
             ),
             Positioned(
-              top: 104.0,
-              right: 20.0,
-              left: 20.0,
+              top: 108.0,
+              right: 40.0,
+              left: 40.0,
               child: Container(
                 height: 50.0,
-                width: double.infinity,
+                width: 397.0,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30.0),
-                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(15),
+                      bottomLeft: Radius.circular(15)),
                   boxShadow: [
                     BoxShadow(
                         color: Colors.grey,
-                        offset: Offset(1.0, 5.0),
+                        offset: Offset(0.0, 7.0),
                         blurRadius: 10,
-                        spreadRadius: 3)
+                        spreadRadius: 1)
                   ],
+                  color: Colors.white,
                 ),
                 child: TextField(
                   controller: coming,
-                  //Pushing the second screen and wait for the result
                   cursorColor: Colors.black,
-                  //controller: appState.destinationController,
                   textInputAction: TextInputAction.go,
                   onSubmitted: (query) {},
-
                   onTap: () async {
-                    dynamic result = await showSearch(
-                        context: context, delegate: DataSearch());
-                    coming.text = going.text != result ? result : '';
-                    print('Where to: $result');
-                    void whereToSelected() {
-                      setState(() {
-                        if (_toMarker != null) {
-                          _markers.remove(_toMarker);
-                        }
-                        if ((_fromMarker != null &&
-                                BusStops.busStopMap[result] !=
-                                    _fromMarker.position) ||
-                            _fromMarker == null) {
-                          Marker newMarker = Marker(
-                              // This marker id can be anything that uniquely identifies each marker.
-                              markerId: MarkerId(
-                                ('$result'),
-                              ),
-                              //make position respond to user selection
-                              position: BusStops.busStopMap[result],
-                              infoWindow: InfoWindow(
-                                title: ('$result'),
-                                //snippet: '5 Star Rating',
-                              ),
-                              icon: BitmapDescriptor.defaultMarkerWithHue(
-                                  BitmapDescriptor.hueBlue));
-                          _toMarker = newMarker;
-                          _markers.add(newMarker);
-                          setState(() {
+                    if (_fromMarker != null) {
+                      dynamic result = await showSearch(
+                          context: context, delegate: DataSearch());
+                      coming.text = going.text != result ? result : '';
+                      print('Where to: $result');
+                      void whereToSelected() {
+                        setState(() {
+                          if (_toMarker != null) {
+                            _markers.remove(_toMarker);
+                          }
+                          if ((_fromMarker != null &&
+                                  BusStops.busStopMap[result] !=
+                                      _fromMarker.position) ||
+                              _fromMarker == null) {
+                            Marker newMarker = Marker(
+                                // This marker id can be anything that uniquely identifies each marker.
+                                markerId: MarkerId(
+                                  ('$result'),
+                                ),
+                                //make position respond to user selection
+                                position: BusStops.busStopMap[result],
+                                infoWindow: InfoWindow(
+                                  title: ('$result'),
+                                  //snippet: '5 Star Rating',
+                                ),
+                                icon: BitmapDescriptor.defaultMarkerWithHue(
+                                    BitmapDescriptor.hueBlue));
+                            _toMarker = newMarker;
+                            _markers.add(newMarker);
+
+                            _getPolyline();
+
+                            calculateDistanceKM();
+                            calculateDistance();
+
                             isShowingCard = true;
-                          });
-                        } else {
-                          print("Snack Bar Displayed");
-                          _showSnackBar();
-                          //Add toast to show user you can't do this.
+                            print('is the card showing?' ' $isShowingCard');
+                          } else {
+                            print("Snack Bar Displayed");
+                            _showSnackBar();
+                            //Add toast to show user you can't do this.
 
-                          polylineCoordinates.clear();
-                        }
+                            polylineCoordinates.clear();
+                          }
+                        });
+                      }
 
-                        _getPolyline();
-                      });
+                      whereToSelected();
+
+                      polylineCoordinates.clear();
                     }
-
-                    whereToSelected();
-
-                    polylineCoordinates.clear();
                   },
-
                   decoration: InputDecoration(
                     icon: Container(
                       margin: EdgeInsets.only(left: 20, top: 0),
@@ -510,7 +511,6 @@ class _MyAppState extends State<MyHomePage> {
       points: polylineCoordinates,
     );
     polylines[id] = polyline;
-    setState(() {});
   }
 
   _getPolyline() async {
@@ -526,5 +526,31 @@ class _MyAppState extends State<MyHomePage> {
       });
     }
     _addPolyLine();
+  }
+
+  void calculateDistance() {
+    setState(() {
+      final double meter = distance(
+        new A.LatLng(_toMarker.position.latitude, _toMarker.position.longitude),
+        new A.LatLng(
+            _fromMarker.position.latitude, _fromMarker.position.longitude),
+      );
+      print('$meter meters');
+      String meterString = meter.toString();
+    });
+  }
+
+  void calculateDistanceKM() {
+    setState(() {
+      final double km = distance.as(
+        A.LengthUnit.Kilometer,
+        new A.LatLng(_toMarker.position.latitude, _toMarker.position.longitude),
+        new A.LatLng(
+            _fromMarker.position.latitude, _fromMarker.position.longitude),
+      );
+      String kmString = km.toString();
+      String k = '$km';
+      print('$km kilometers');
+    });
   }
 }
