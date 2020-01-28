@@ -48,7 +48,7 @@ class _MyAppState extends State<MyHomePage> {
   var going = TextEditingController();
   var coming = TextEditingController();
   var textTouch = TextEditingController();
-  bool _textEnabled = false;
+  bool _isEnabled = false;
 
   GoogleMapController mapController;
 
@@ -418,62 +418,61 @@ class _MyAppState extends State<MyHomePage> {
                   color: Colors.white,
                 ),
                 child: TextField(
+                  enabled: _fromMarker != null,
                   controller: coming,
                   cursorColor: Colors.black,
                   textInputAction: TextInputAction.go,
                   onSubmitted: (query) {},
                   onTap: () async {
-                    if (_fromMarker != null) {
-                      dynamic result = await showSearch(
-                          context: context, delegate: DataSearch());
-                      coming.text = going.text != result ? result : '';
-                      print('Where to: $result');
-                      void whereToSelected() {
-                        setState(() {
-                          if (_toMarker != null) {
-                            _markers.remove(_toMarker);
-                          }
-                          if ((_fromMarker != null &&
-                                  BusStops.busStopMap[result] !=
-                                      _fromMarker.position) ||
-                              _fromMarker == null) {
-                            Marker newMarker = Marker(
-                                // This marker id can be anything that uniquely identifies each marker.
-                                markerId: MarkerId(
-                                  ('$result'),
-                                ),
-                                //make position respond to user selection
-                                position: BusStops.busStopMap[result],
-                                infoWindow: InfoWindow(
-                                  title: ('$result'),
-                                  //snippet: '5 Star Rating',
-                                ),
-                                icon: BitmapDescriptor.defaultMarkerWithHue(
-                                    BitmapDescriptor.hueBlue));
-                            _toMarker = newMarker;
-                            _markers.add(newMarker);
+                    dynamic result = await showSearch(
+                        context: context, delegate: DataSearch());
+                    coming.text = going.text != result ? result : '';
+                    print('Where to: $result');
+                    void whereToSelected() {
+                      setState(() {
+                        if (_toMarker != null) {
+                          _markers.remove(_toMarker);
+                        }
+                        if ((_fromMarker != null &&
+                                BusStops.busStopMap[result] !=
+                                    _fromMarker.position) ||
+                            _fromMarker == null) {
+                          Marker newMarker = Marker(
+                              // This marker id can be anything that uniquely identifies each marker.
+                              markerId: MarkerId(
+                                ('$result'),
+                              ),
+                              //make position respond to user selection
+                              position: BusStops.busStopMap[result],
+                              infoWindow: InfoWindow(
+                                title: ('$result'),
+                                //snippet: '5 Star Rating',
+                              ),
+                              icon: BitmapDescriptor.defaultMarkerWithHue(
+                                  BitmapDescriptor.hueBlue));
+                          _toMarker = newMarker;
+                          _markers.add(newMarker);
 
-                            _getPolyline();
+                          _getPolyline();
 
-                            calculateDistanceKM();
-                            calculateDistance();
+                          calculateDistanceKM();
+                          calculateDistance();
 
-                            isShowingCard = true;
-                            print('is the card showing?' ' $isShowingCard');
-                          } else {
-                            print("Snack Bar Displayed");
-                            _showSnackBar();
-                            //Add toast to show user you can't do this.
+                          isShowingCard = true;
+                          print('is the card showing?' ' $isShowingCard');
+                        } else {
+                          print("Snack Bar Displayed");
+                          _showSnackBar();
+                          //Add toast to show user you can't do this.
 
-                            polylineCoordinates.clear();
-                          }
-                        });
-                      }
-
-                      whereToSelected();
-
-                      polylineCoordinates.clear();
+                          polylineCoordinates.clear();
+                        }
+                      });
                     }
+
+                    whereToSelected();
+
+                    polylineCoordinates.clear();
                   },
                   decoration: InputDecoration(
                     icon: Container(
