@@ -2,6 +2,8 @@ import UIKit
 import Flutter
 import GoogleMaps
 import GooglePlaces
+import Firebase
+
 
 
 
@@ -15,5 +17,8 @@ import GooglePlaces
     GeneratedPluginRegistrant.register(with: self)
     GMSServices.provideAPIKey("AIzaSyCMMH4Vzw-Rplb164RMVr8vXTNIULLGj4k")
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+    
+    
+    
   } 
 }

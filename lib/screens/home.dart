@@ -1,5 +1,6 @@
 import 'package:brtbus/core/busStops.dart';
 import 'package:brtbus/screens/settings.dart';
+import 'package:brtbus/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -11,15 +12,15 @@ import 'settings.dart';
 import 'listView.dart';
 import 'package:latlong/latlong.dart' as A;
 
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:firebase_admob/firebase_admob.dart';
+
 class MyHomePage extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyHomePage> {
-  // dynamic meter = A.Distance;
-  // dynamic km = A.Distance;
-  // String meterString = '';
   final A.Distance distance = new A.Distance();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -83,67 +84,112 @@ class _MyAppState extends State<MyHomePage> {
         "the longitude is: ${position.longitude} and the latitude is: ${position.latitude} ");
   }
 
+  _getCustomAppBar() {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(50),
+      child: Container(
+        alignment: Alignment.bottomCenter,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [
+              secondaryBlue,
+              primaryBlue,
+            ],
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            // IconButton(
+            //     icon: Icon(Icons.menu), color: Colors.white, onPressed: () {}),
+
+            Text(
+              'Map',
+              style: TextStyle(
+                  height: 5,
+                  fontSize: 19,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   void _onCameraMove(CameraPosition position) {
     //_lastMapPosition = position.target;
   }
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAdMob.instance
+        .initialize(appId: "ca-app-pub-3603864222235662~7855339836");
+    //   .then((response) {
+    // myBanner
+    //   ..load()
+    //   ..show(
+    //     // anchorOffset: 0.0,
+    //     anchorType: AnchorType.bottom,
+    //   );
+    //};
+
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Montserrat'),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         key: _scaffoldKey,
-        backgroundColor: Colors.black,
-        appBar: AppBar(
-          title: Text('BRT Lagos'),
-          backgroundColor: Colors.blue[900],
-        ),
-        drawer: new Drawer(
-          child: new ListView(
-            children: <Widget>[
-              new ListTile(
-                  title: new Text("Map"),
-                  leading: Icon(Icons.map),
-                  trailing: Icon(Icons.arrow_upward),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MyHomePage()));
-                  }),
-              new ListTile(
-                  title: new Text("Info"),
-                  leading: Icon(Icons.contacts),
-                  trailing: Icon(Icons.arrow_right),
-                  onTap: () {
-                    //Navigator.of(context).pop();
-                    Navigator.of(context).push(new MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            new InfoPage("Info")));
-                  }),
-              Divider(
-                color: Colors.black,
-              ),
-              new ListTile(
-                  title: new Text("Settings"),
-                  leading: Icon(Icons.settings),
-                  trailing: Icon(Icons.arrow_right),
-                  onTap: () {
-                    Navigator.of(context).push(new MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            new SettingsPage("Settings")));
-                  }),
-              new ListTile(
-                  title: new Text("About"),
-                  leading: Icon(Icons.help),
-                  trailing: Icon(Icons.arrow_right),
-                  onTap: () {
-                    Navigator.of(context).push(new MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            new InfoPage("About")));
-                  }),
-            ],
-          ),
-        ),
+        // backgroundColor: Colors.black,
+        appBar: _getCustomAppBar(),
+
+        // drawer: new Drawer(
+        //   child: new ListView(
+        //     children: <Widget>[
+        //       new ListTile(
+        //           title: new Text("Map"),
+        //           leading: Icon(Icons.map),
+        //           trailing: Icon(Icons.arrow_upward),
+        //           onTap: () {
+        //             Navigator.push(context,
+        //                 MaterialPageRoute(builder: (context) => MyHomePage()));
+        //           }),
+        //       new ListTile(
+        //           title: new Text("Info"),
+        //           leading: Icon(Icons.contacts),
+        //           trailing: Icon(Icons.arrow_right),
+        //           onTap: () {
+        //             //Navigator.of(context).pop();
+        //             Navigator.of(context).push(new MaterialPageRoute(
+        //                 builder: (BuildContext context) =>
+        //                     new InfoPage("Info")));
+        //           }),
+        //       Divider(
+        //         color: Colors.black,
+        //       ),
+        //       new ListTile(
+        //           title: new Text("Settings"),
+        //           leading: Icon(Icons.settings),
+        //           trailing: Icon(Icons.arrow_right),
+        //           onTap: () {
+        //             Navigator.of(context).push(new MaterialPageRoute(
+        //                 builder: (BuildContext context) =>
+        //                     new SettingsPage("Settings")));
+        //           }),
+        //       new ListTile(
+        //           title: new Text("About"),
+        //           leading: Icon(Icons.help),
+        //           trailing: Icon(Icons.arrow_right),
+        //           onTap: () {
+        //             Navigator.of(context).push(new MaterialPageRoute(
+        //                 builder: (BuildContext context) =>
+        //                     new InfoPage("About")));
+        //           }),
+        //     ],
+        //   ),
+        // ),
         body: Stack(
           children: <Widget>[
             GoogleMap(
@@ -162,153 +208,127 @@ class _MyAppState extends State<MyHomePage> {
             AnimatedPositioned(
               duration: Duration(milliseconds: 700),
               top: isShowingCard
-                  ? MediaQuery.of(context).size.height - 400
+                  ? MediaQuery.of(context).size.height - 325
                   : MediaQuery.of(context).size.height,
               child: Container(
-                child: Column(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                    Column(
                       children: <Widget>[
-                        SizedBox(
-                          width: 320.0,
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: IconButton(
-                              iconSize: 30,
-                              onPressed: () {
-                                print('close button pressed');
-                                setState(() {
-                                  isShowingCard = false;
-                                });
-                              },
-                              icon: Icon(
-                                Icons.close,
+                        Container(
+                          child: Text(
+                            "Time",
+                            textAlign: TextAlign.center,
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 20.0),
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black,
+                                // offset: Offset(1.0, 5.0),
+                                // blurRadius: 10,
+                                // spreadRadius: 3\
                               ),
-                              color: Colors.red),
+                            ],
+                            color: Colors.white,
+                          ),
+                          height: 180,
+                          width: 120,
                         ),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Column(
                       children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: Icon(
-                            Icons.timer,
-                            color: Colors.blue[900],
-                            size: 30,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
+                        Container(
                           child: Text(
-                            '1hr 20m (10km)',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 28.0,
-                              color: Colors.blue[900],
-                            ),
+                            "Stops",
+                            textAlign: TextAlign.center,
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 20.0),
                           ),
-                        ),
-                        SizedBox(
-                          width: 10.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black,
+                                // offset: Offset(1.0, 5.0),
+                                // blurRadius: 10,
+                                // spreadRadius: 3\
+                              ),
+                            ],
+                            color: Colors.white,
+                          ),
+                          height: 180,
+                          width: 120,
                         ),
                       ],
                     ),
-
-                    Row(
+                    Column(
                       children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: Icon(
-                            Icons.directions_bus,
-                            color: Colors.blue[900],
-                            size: 30.0,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 6,
+                        Container(
                           child: Text(
-                            '3',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 25.0,
-                              color: Colors.blue[900],
-                            ),
+                            "Fee",
+                            textAlign: TextAlign.center,
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 20.0),
                           ),
-                        ),
-                      ],
-                    ),
-                    // Divider(
-                    //   color: Colors.grey,
-                    // ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: Icon(
-                            Icons.attach_money,
-                            color: Colors.blue[900],
-                            size: 30.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black,
+                                // offset: Offset(1.0, 5.0),
+                                // blurRadius: 10,
+                                // spreadRadius: 3\
+                              ),
+                            ],
+                            color: Colors.white,
                           ),
+                          height: 180,
+                          width: 120,
                         ),
-                        Expanded(
-                          flex: 6,
-                          child: Text(
-                            '500',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 25.0,
-                              color: Colors.blue[900],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        IconButton(
-                          iconSize: 30.0,
-                          onPressed: () {
-                            print('go button pressed');
-                          },
-                          icon: Icon(
-                            Icons.arrow_forward,
-                            color: Colors.green,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 15.0,
-                        ),
+                        // Row(
+                        //   children: <Widget>[Text("ahfbsk")],
+                        // ),
                       ],
                     ),
                   ],
                 ),
+                // child: Container(
+                //   child: Row(
+                //     children: <Widget>[],
+                //   ),
+                // ),
                 width: MediaQuery.of(context).size.width,
                 height: 300,
                 alignment: Alignment.center,
                 decoration: new BoxDecoration(
+                  // gradient: LinearGradient(
+                  //   begin: Alignment.centerLeft,
+                  //   end: Alignment.centerRight,
+                  //   // stops: [0.15, 0.5],
+                  //   colors: [
+                  //     secondaryBlue,
+                  //     primaryBlue,
+                  //   ],
+                  // ),
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(35.0),
+                  borderRadius: BorderRadius.circular(25.0),
                   boxShadow: [
                     BoxShadow(
-                        color: Colors.blue[900],
+                        // color: Colors.blue[900],
                         offset: Offset(1.0, 5.0),
                         blurRadius: 10,
-                        spreadRadius: 3)
+                        spreadRadius: 1)
                   ],
                 ),
               ),
             ),
             Positioned(
-              top: 57.6,
+              top: 50.6,
               right: 40.0,
               left: 40.0,
               child: Container(
@@ -398,7 +418,7 @@ class _MyAppState extends State<MyHomePage> {
               ),
             ),
             Positioned(
-              top: 108.0,
+              top: 100.0,
               right: 40.0,
               left: 40.0,
               child: Container(
@@ -446,7 +466,6 @@ class _MyAppState extends State<MyHomePage> {
                               position: BusStops.busStopMap[result],
                               infoWindow: InfoWindow(
                                 title: ('$result'),
-                                //snippet: '5 Star Rating',
                               ),
                               icon: BitmapDescriptor.defaultMarkerWithHue(
                                   BitmapDescriptor.hueBlue));
@@ -480,7 +499,7 @@ class _MyAppState extends State<MyHomePage> {
                       width: 10,
                       height: 10,
                       child: Icon(
-                        Icons.directions_bus,
+                        MdiIcons.busSide,
                         color: Colors.blue[900],
                       ),
                     ),
@@ -528,28 +547,50 @@ class _MyAppState extends State<MyHomePage> {
   }
 
   void calculateDistance() {
-    setState(() {
-      final double meter = distance(
-        new A.LatLng(_toMarker.position.latitude, _toMarker.position.longitude),
-        new A.LatLng(
-            _fromMarker.position.latitude, _fromMarker.position.longitude),
-      );
-      print('$meter meters');
-      String meterString = meter.toString();
-    });
+    //setState(() {
+    final double meter = distance(
+      new A.LatLng(_toMarker.position.latitude, _toMarker.position.longitude),
+      new A.LatLng(
+          _fromMarker.position.latitude, _fromMarker.position.longitude),
+    );
+    print('$meter meters');
+    String meterString = meter.toString();
+    // });
   }
 
   void calculateDistanceKM() {
-    setState(() {
-      final double km = distance.as(
-        A.LengthUnit.Kilometer,
-        new A.LatLng(_toMarker.position.latitude, _toMarker.position.longitude),
-        new A.LatLng(
-            _fromMarker.position.latitude, _fromMarker.position.longitude),
-      );
-      String kmString = km.toString();
-      String k = '$km';
-      print('$km kilometers');
-    });
+    //setState(() {
+    final double km = distance.as(
+      A.LengthUnit.Kilometer,
+      new A.LatLng(_toMarker.position.latitude, _toMarker.position.longitude),
+      new A.LatLng(
+          _fromMarker.position.latitude, _fromMarker.position.longitude),
+    );
+    String kmString = km.toString();
+    String k = '$km';
+    print('$km kilometers');
+    // });
   }
 }
+
+MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+  keywords: <String>['flutterio', 'beautiful apps'],
+  contentUrl: 'https://flutter.io',
+  // birthday: DateTime.now(),
+  childDirected: false,
+  // designedForFamilies: false,
+  // gender:
+  //     MobileAdGender.male, // or MobileAdGender.female, MobileAdGender.unknown
+  testDevices: <String>[], // Android emulators are considered test devices
+);
+BannerAd myBanner = BannerAd(
+  // Replace the testAdUnitId with an ad unit id from the AdMob dash.
+  // https://developers.google.com/admob/android/test-ads
+  // https://developers.google.com/admob/ios/test-ads
+  adUnitId: "ca-app-pub-3940256099942544/6300978111",
+  size: AdSize.smartBanner,
+  targetingInfo: targetingInfo,
+  listener: (MobileAdEvent event) {
+    print("BannerAd event is $event");
+  },
+);

@@ -26,6 +26,9 @@ dependencies:
   permission:
   sliding_up_panel: ^0.3.6
   latlong: ^0.6.1
+  gradient_app_bar: ^0.0.1
+  material_design_icons_flutter: ^3.4.4895
+  firebase_admob: ^0.9.0+10
 
   #compileSdkVersion 28
 
