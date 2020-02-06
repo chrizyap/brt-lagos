@@ -211,8 +211,9 @@ class _MyAppState extends State<MyHomePage> {
                   ? MediaQuery.of(context).size.height - 325
                   : MediaQuery.of(context).size.height,
               child: Container(
+                padding: EdgeInsets.only(top: 20),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Column(
                       children: <Widget>[
@@ -227,10 +228,8 @@ class _MyAppState extends State<MyHomePage> {
                             borderRadius: BorderRadius.circular(15.0),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black,
-                                // offset: Offset(1.0, 5.0),
-                                // blurRadius: 10,
-                                // spreadRadius: 3\
+                                color: primaryBlue,
+                                spreadRadius: 1,
                               ),
                             ],
                             color: Colors.white,
@@ -253,10 +252,8 @@ class _MyAppState extends State<MyHomePage> {
                             borderRadius: BorderRadius.circular(15.0),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black,
-                                // offset: Offset(1.0, 5.0),
-                                // blurRadius: 10,
-                                // spreadRadius: 3\
+                                color: primaryBlue,
+                                spreadRadius: 1,
                               ),
                             ],
                             color: Colors.white,
@@ -279,10 +276,8 @@ class _MyAppState extends State<MyHomePage> {
                             borderRadius: BorderRadius.circular(15.0),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black,
-                                // offset: Offset(1.0, 5.0),
-                                // blurRadius: 10,
-                                // spreadRadius: 3\
+                                color: primaryBlue,
+                                spreadRadius: 1,
                               ),
                             ],
                             color: Colors.white,
