@@ -24,6 +24,8 @@ class _MyAppState extends State<MyHomePage> {
   final A.Distance distance = new A.Distance();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  String kmString;
   _showSnackBar() {
     final snackBar = new SnackBar(
       content: new Text("Sorry, you can't choose the same bus stop!"),
@@ -65,6 +67,8 @@ class _MyAppState extends State<MyHomePage> {
 
   //static LatLng _tbsTerminal = LatLng(6.445721, 3.401200);
   //static LatLng _cmsTerminal = LatLng(6.451145, 3.389201);
+
+  Map timeTo = {'hours': 5, 'minutes': 30};
 
   static const LatLng _center = const LatLng(6.5244, 3.3792);
 
@@ -218,18 +222,45 @@ class _MyAppState extends State<MyHomePage> {
                     Column(
                       children: <Widget>[
                         Container(
-                          child: Text(
-                            "Time",
-                            textAlign: TextAlign.center,
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 20.0),
+                          padding: EdgeInsets.all(7),
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                "Time",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              Expanded(
+                                  child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  timeTo['hours'] != 0
+                                      ? Text(
+                                          '${timeTo['hours']} hr',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(fontSize: 38),
+                                        )
+                                      : Container(),
+                                  Text(
+                                    '${timeTo['minutes']} min',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize:
+                                            timeTo['hours'] != 0 ? 20 : 30),
+                                  )
+                                ],
+                              )),
+                            ],
                           ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15.0),
                             boxShadow: [
                               BoxShadow(
-                                color: primaryBlue,
-                                spreadRadius: 1,
+                                color: Colors.grey[400],
+                                spreadRadius: 0.5,
                               ),
                             ],
                             color: Colors.white,
@@ -242,18 +273,21 @@ class _MyAppState extends State<MyHomePage> {
                     Column(
                       children: <Widget>[
                         Container(
+                          padding: EdgeInsets.all(7),
                           child: Text(
                             "Stops",
                             textAlign: TextAlign.center,
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 20.0),
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w500),
                           ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15.0),
                             boxShadow: [
                               BoxShadow(
-                                color: primaryBlue,
-                                spreadRadius: 1,
+                                color: Colors.grey[400],
+                                spreadRadius: 0.5,
                               ),
                             ],
                             color: Colors.white,
@@ -266,18 +300,21 @@ class _MyAppState extends State<MyHomePage> {
                     Column(
                       children: <Widget>[
                         Container(
+                          padding: EdgeInsets.all(7),
                           child: Text(
                             "Fee",
                             textAlign: TextAlign.center,
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 20.0),
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w500),
                           ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15.0),
                             boxShadow: [
                               BoxShadow(
-                                color: primaryBlue,
-                                spreadRadius: 1,
+                                color: Colors.grey[400],
+                                spreadRadius: 0.5,
                               ),
                             ],
                             color: Colors.white,
@@ -292,11 +329,6 @@ class _MyAppState extends State<MyHomePage> {
                     ),
                   ],
                 ),
-                // child: Container(
-                //   child: Row(
-                //     children: <Widget>[],
-                //   ),
-                // ),
                 width: MediaQuery.of(context).size.width,
                 height: 300,
                 alignment: Alignment.center,
@@ -561,7 +593,12 @@ class _MyAppState extends State<MyHomePage> {
       new A.LatLng(
           _fromMarker.position.latitude, _fromMarker.position.longitude),
     );
-    String kmString = km.toString();
+    double timeTaken = km / 35;
+    timeTo = {
+      'hours': timeTaken.floor(),
+      'minutes': ((timeTaken % 1) * 60).ceil()
+    };
+    kmString = km.toString();
     String k = '$km';
     print('$km kilometers');
     // });
