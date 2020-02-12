@@ -13,7 +13,7 @@ import 'listView.dart';
 import 'package:latlong/latlong.dart' as A;
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:firebase_admob/firebase_admob.dart';
+// import 'package:firebase_admob/firebase_admob.dart';
 import 'package:brtbus/Animation/FadeAnimation.dart';
 import 'package:simple_animations/simple_animations.dart';
 
@@ -41,14 +41,16 @@ class _MyAppState extends State<MyHomePage> {
     );
     // Display snackbar.
     _scaffoldKey.currentState.showSnackBar(snackBar);
-    if (isShowingCard == true) {
+    if ([CardStates.fullVisible, CardStates.halfVisible]
+        .contains(_cardStates)) {
       setState(() {
-        isShowingCard = false;
+        _cardStates = CardStates.hidden;
       });
     }
   }
 
-  bool isShowingCard = false;
+  CardStates _cardStates = CardStates.hidden;
+  List stopLists = [];
 
   var going = TextEditingController();
   var coming = TextEditingController();
@@ -97,14 +99,19 @@ class _MyAppState extends State<MyHomePage> {
       child: Container(
         alignment: Alignment.bottomCenter,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-            colors: [
-              secondaryBlue,
-              primaryBlue,
-            ],
-          ),
+          // gradient: LinearGradient(
+          //   begin: Alignment.topCenter,
+          //   end: Alignment.bottomCenter,
+          //   colors: [
+          //     secondaryBlue,
+          //     primaryBlue,
+          //   ],
+          //   // stops: [
+          //   //   0.12,
+          //   //   0.7
+          //   // ]
+          // ),
+          color: primaryBlue,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -133,16 +140,16 @@ class _MyAppState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    FirebaseAdMob.instance
-        .initialize(appId: "ca-app-pub-3603864222235662~7855339836");
-    //   .then((response) {
-    // myBanner
-    //   ..load()
-    //   ..show(
-    //     // anchorOffset: 0.0,
-    //     anchorType: AnchorType.bottom,
-    //   );
-    //};
+    // FirebaseAdMob.instance
+    //     .initialize(appId: "ca-app-pub-3603864222235662~7855339836");
+    // //     .then((response) {
+    // //   myBanner
+    // //     ..load()
+    // //     ..show(
+    // //       // anchorOffset: 0.0,
+    // //       anchorType: AnchorType.bottom,
+    // //     );
+    // // });
 
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Montserrat'),
@@ -202,7 +209,8 @@ class _MyAppState extends State<MyHomePage> {
             GoogleMap(
               onMapCreated: _onMapCreated,
               myLocationEnabled: true,
-              //compassEnabled: true,
+              myLocationButtonEnabled: false,
+              // compassEnabled: true,
               initialCameraPosition: CameraPosition(
                 target: _center,
                 zoom: 12.0,
@@ -213,174 +221,254 @@ class _MyAppState extends State<MyHomePage> {
               onCameraMove: _onCameraMove,
             ),
             AnimatedPositioned(
-              duration: Duration(milliseconds: 700),
-              top: isShowingCard
-                  ? MediaQuery.of(context).size.height - 325
-                  : MediaQuery.of(context).size.height,
-              child: Container(
-                padding: EdgeInsets.only(top: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(7),
-                          child: Column(
+              duration: Duration(milliseconds: 600),
+              top: _cardStates == CardStates.halfVisible
+                  ? MediaQuery.of(context).size.height - 280
+                  : _cardStates == CardStates.fullVisible
+                      ? MediaQuery.of(context).size.height - 450
+                      : MediaQuery.of(context).size.height,
+              child: InkWell(
+                onTap: () {
+                  setState(() {
+                    _cardStates = _cardStates == CardStates.fullVisible
+                        ? CardStates.halfVisible
+                        : CardStates.fullVisible;
+                  });
+                },
+                child: Container(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          //Time
+                          Column(
                             children: <Widget>[
-                              Text(
-                                "Time",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              Expanded(
-                                  child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  timeTo['hours'] != 0
-                                      ? Text(
-                                          '${timeTo['hours']} hr',
+                              Container(
+                                padding: EdgeInsets.all(7),
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      "Time",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Expanded(
+                                        child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        timeTo['hours'] != 0
+                                            ? Text(
+                                                '${timeTo['hours']} hr',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(fontSize: 38),
+                                              )
+                                            : Container(),
+                                        Text(
+                                          '${timeTo['minutes']} min',
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 38),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: timeTo['hours'] != 0
+                                                  ? 20
+                                                  : 25),
                                         )
-                                      : Container(),
-                                  Text(
-                                    '${timeTo['minutes']} min',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize:
-                                            timeTo['hours'] != 0 ? 20 : 30),
-                                  )
-                                ],
-                              )),
-                            ],
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey[400],
-                                spreadRadius: 0.5,
+                                      ],
+                                    )),
+                                  ],
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  color: secondaryBlue,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: secondaryBlue,
+                                      spreadRadius: 1,
+                                      blurRadius: 1.5,
+                                    ),
+                                  ],
+                                  gradient: LinearGradient(
+                                      begin: Alignment.bottomRight,
+                                      end: Alignment.topLeft,
+                                      colors: [
+                                        primaryBlue,
+                                        secondaryBlue,
+                                        // Colors.white,
+                                      ],
+                                      stops: [
+                                        0.4,
+                                        1,
+                                      ]),
+                                  // color: Colors.white,
+                                ),
+                                height: 100,
+                                width: 100,
                               ),
                             ],
-                            color: Colors.white,
                           ),
-                          height: 180,
-                          width: 120,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(7),
-                          child: Column(
+                          //Stops Column
+                          Column(
                             children: <Widget>[
-                              Text(
-                                "Stops",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.w500),
+                              Container(
+                                padding: EdgeInsets.all(7),
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      "Stops",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Expanded(
+                                        child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          ('$stops'),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 30,
+                                              color: Colors.white),
+                                        )
+                                      ],
+                                    )),
+                                  ],
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  color: secondaryBlue,
+
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: secondaryBlue,
+                                      spreadRadius: 1,
+                                      blurRadius: 1.5,
+                                    ),
+                                  ],
+
+                                  gradient: LinearGradient(
+                                      begin: Alignment.bottomRight,
+                                      end: Alignment.topLeft,
+                                      colors: [
+                                        primaryBlue,
+                                        secondaryBlue,
+                                        // Colors.white,
+                                      ],
+                                      stops: [
+                                        0.4,
+                                        1,
+                                      ]),
+                                  // color: Colors.white,
+                                ),
+                                height: 100,
+                                width: 100,
                               ),
-                              Expanded(
-                                  child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    ('$stops'),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 30),
-                                  )
-                                ],
-                              )),
                             ],
                           ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey[400],
-                                spreadRadius: 0.5,
-                              ),
-                            ],
-                            color: Colors.white,
-                          ),
-                          height: 180,
-                          width: 120,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(7),
-                          child: Column(
+                          //Fee Column
+                          Column(
                             children: <Widget>[
-                              Text(
-                                "Fee",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.w500),
+                              Container(
+                                padding: EdgeInsets.all(7),
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      "Fee",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Expanded(
+                                        child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text('₦300',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 28,
+                                              color: Colors.white,
+                                            ))
+                                      ],
+                                    )),
+                                  ],
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  color: secondaryBlue,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: secondaryBlue,
+                                      spreadRadius: 1,
+                                      blurRadius: 1.5,
+                                    ),
+                                  ],
+                                  gradient: LinearGradient(
+                                      begin: Alignment.bottomRight,
+                                      end: Alignment.topLeft,
+                                      colors: [
+                                        primaryBlue,
+                                        secondaryBlue,
+                                        // Colors.white,
+                                      ],
+                                      stops: [
+                                        0.4,
+                                        1,
+                                      ]),
+                                ),
+                                height: 100,
+                                width: 100,
                               ),
-                              Expanded(
-                                  child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    '₦300',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 28),
-                                  )
-                                ],
-                              )),
                             ],
                           ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey[400],
-                                spreadRadius: 0.5,
-                              ),
-                            ],
-                            color: Colors.white,
-                          ),
-                          height: 180,
-                          width: 120,
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Divider(
+                          color: Colors.grey,
                         ),
-                      ],
-                    ),
-                  ],
-                ),
-                width: MediaQuery.of(context).size.width,
-                height: 300,
-                alignment: Alignment.center,
-                decoration: new BoxDecoration(
-                  // gradient: LinearGradient(
-                  //   begin: Alignment.centerLeft,
-                  //   end: Alignment.centerRight,
-                  //   // stops: [0.15, 0.5],
-                  //   colors: [
-                  //     secondaryBlue,
-                  //     primaryBlue,
-                  //   ],
-                  // ),
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(25.0),
-                  boxShadow: [
-                    BoxShadow(
-                        // color: Colors.blue[900],
-                        offset: Offset(1.0, 5.0),
-                        blurRadius: 10,
-                        spreadRadius: 1)
-                  ],
+                      ),
+                      buildListView()
+                    ],
+                  ),
+                  width: MediaQuery.of(context).size.width,
+                  height: 400,
+                  alignment: Alignment.center,
+                  decoration: new BoxDecoration(
+                    // gradient: LinearGradient(
+                    //     begin: Alignment.bottomCenter,
+                    //     end: Alignment.topCenter,
+                    //     colors: [
+                    //       primaryBlue,
+                    //       secondaryBlue,
+                    //       Colors.transparent,
+                    //     ],
+                    //     stops: [
+                    //       0.3,
+                    //       0.6,
+                    //       0.1
+                    //     ]),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(25.0),
+                    // boxShadow: [
+                    //   BoxShadow(
+                    //       // color: Colors.blue[900],
+                    //       offset: Offset(1.0, 5.0),
+                    //       blurRadius: 10,
+                    //       spreadRadius: 1)
+                    // ],
+                  ),
                 ),
               ),
             ),
@@ -540,8 +628,9 @@ class _MyAppState extends State<MyHomePage> {
                               noOfStops();
                               // _onCameraMove(CameraPosition(target: _fromMarker.position,  );
 
-                              isShowingCard = true;
-                              print('is the card showing?' ' $isShowingCard');
+                              setState(() {
+                                _cardStates = CardStates.halfVisible;
+                              });
                             } else {
                               print("Snack Bar Displayed");
                               _showSnackBar();
@@ -636,17 +725,145 @@ class _MyAppState extends State<MyHomePage> {
     // });
   }
 
+  String _setImage() {
+    var a = BusStops.busStopIndex.values.first;
+
+    var b = BusStops.busStopIndex.values.last;
+
+    if (BusStops.busStopIndex.values != a || b) {
+      return 'images/2nd_node.png';
+    } else {
+      return 'images/1st_node.png';
+    }
+  }
+
   void noOfStops() {
     // setState(() {
     var x = BusStops.busStopIndex[_fromMarker.markerId.value];
     var y = BusStops.busStopIndex[_toMarker.markerId.value];
+
     print('$x' '-' '$y');
     stops = (x - y);
     if (stops < 0) {
       stops = ((stops) - (2 * stops));
     }
     print('$stops stops');
+
+    int c = 0;
+    for (int i = x; c <= stops; y > x ? i++ : i--) {
+      c++;
+      stopLists.add(BusStops.busStopIndex.keys.toList()[i - 1]);
+    }
+
     // });
+  }
+
+  Widget buildListView() {
+    Map stopListMap = stopLists.asMap();
+    print(stopListMap);
+    var i = 0;
+
+    for (i = 0; i < stopLists.length; i++) {
+      print(stopListMap[i]);
+    }
+
+    // final indiStopListMap = stopListMap[0];
+    // print(indiStopListMap);
+    print('::::::');
+
+    return ListView.builder(
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      itemCount: stopListMap.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.all(5),
+                  width: 70,
+                  height: 70,
+                  // color: Colors.white,
+                  // child: Text(
+                  //   'Icon',
+                  //   style: TextStyle(
+                  //       color: Colors.black,
+                  //       fontSize: 15,
+                  //       fontWeight: FontWeight.w500),
+                  // ),
+                  decoration: BoxDecoration(
+                    image: new DecorationImage(
+                      fit: BoxFit.fitHeight,
+                      image: AssetImage(_setImage()),
+                    ),
+                  ),
+                  // borderRadius: BorderRadius.circular(10),
+                  // color: Colors.white,
+                  // boxShadow: [
+                  //   BoxShadow(color: Colors.grey, spreadRadius: 1)
+                  // ]),
+                ),
+              ],
+            ),
+            Column(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(20),
+                  child: Text(
+                    '${stopListMap[index]}',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  height: 75,
+                  width: MediaQuery.of(context).size.width - 150,
+                  decoration: BoxDecoration(
+                    // boxShadow: [BoxShadow(color: Colors.grey, spreadRadius: 1)],
+                    color: Colors.white,
+
+                    borderRadius: BorderRadius.circular(12.0),
+                    // shape: BoxShape.rectangle,
+                  ),
+                ),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.all(5),
+                  width: 50,
+                  height: 75,
+                  // color: Colors.white,
+                  child: Text(
+                    '15:00',
+                    // textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    // boxShadow: [
+                    //   BoxShadow(color: Colors.grey, spreadRadius: 1)
+                    // ]
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 
   //  Future<void> _goToTheLake() async {
@@ -658,24 +875,26 @@ class _MyAppState extends State<MyHomePage> {
   //   }
 }
 
-MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-  keywords: <String>['flutterio', 'beautiful apps'],
-  contentUrl: 'https://flutter.io',
-  // birthday: DateTime.now(),
-  childDirected: false,
-  // designedForFamilies: false,
-  // gender:
-  //     MobileAdGender.male, // or MobileAdGender.female, MobileAdGender.unknown
-  testDevices: <String>[], // Android emulators are considered test devices
-);
-BannerAd myBanner = BannerAd(
-  // Replace the testAdUnitId with an ad unit id from the AdMob dash.
-  // https://developers.google.com/admob/android/test-ads
-  // https://developers.google.com/admob/ios/test-ads
-  adUnitId: "ca-app-pub-3940256099942544/6300978111",
-  size: AdSize.smartBanner,
-  targetingInfo: targetingInfo,
-  listener: (MobileAdEvent event) {
-    print("BannerAd event is $event");
-  },
-);
+// MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+//   keywords: <String>['flutterio', 'beautiful apps'],
+//   contentUrl: 'https://flutter.io',
+//   // birthday: DateTime.now(),
+//   childDirected: false,
+//   // designedForFamilies: false,
+//   // gender:
+//   //     MobileAdGender.male, // or MobileAdGender.female, MobileAdGender.unknown
+//   testDevices: <String>[], // Android emulators are considered test devices
+// );
+// BannerAd myBanner = BannerAd(
+//   // Replace the testAdUnitId with an ad unit id from the AdMob dash.
+//   // https://developers.google.com/admob/android/test-ads
+//   // https://developers.google.com/admob/ios/test-ads
+//   adUnitId: "ca-app-pub-3940256099942544/6300978111",
+//   size: AdSize.smartBanner,
+//   targetingInfo: targetingInfo,
+//   listener: (MobileAdEvent event) {
+//     print("BannerAd event is $event");
+//   },
+// );
+
+enum CardStates { hidden, halfVisible, fullVisible }
