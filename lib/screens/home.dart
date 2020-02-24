@@ -15,7 +15,6 @@ import 'package:latlong/latlong.dart' as A;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 // import 'package:firebase_admob/firebase_admob.dart';
 import 'package:brtbus/Animation/FadeAnimation.dart';
-import 'package:simple_animations/simple_animations.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -99,26 +98,11 @@ class _MyAppState extends State<MyHomePage> {
       child: Container(
         alignment: Alignment.bottomCenter,
         decoration: BoxDecoration(
-          // gradient: LinearGradient(
-          //   begin: Alignment.topCenter,
-          //   end: Alignment.bottomCenter,
-          //   colors: [
-          //     secondaryBlue,
-          //     primaryBlue,
-          //   ],
-          //   // stops: [
-          //   //   0.12,
-          //   //   0.7
-          //   // ]
-          // ),
           color: primaryBlue,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // IconButton(
-            //     icon: Icon(Icons.menu), color: Colors.white, onPressed: () {}),
-
             Text(
               'Map',
               style: TextStyle(
@@ -159,51 +143,6 @@ class _MyAppState extends State<MyHomePage> {
         // backgroundColor: Colors.black,
         appBar: _getCustomAppBar(),
 
-        // drawer: new Drawer(
-        //   child: new ListView(
-        //     children: <Widget>[
-        //       new ListTile(
-        //           title: new Text("Map"),
-        //           leading: Icon(Icons.map),
-        //           trailing: Icon(Icons.arrow_upward),
-        //           onTap: () {
-        //             Navigator.push(context,
-        //                 MaterialPageRoute(builder: (context) => MyHomePage()));
-        //           }),
-        //       new ListTile(
-        //           title: new Text("Info"),
-        //           leading: Icon(Icons.contacts),
-        //           trailing: Icon(Icons.arrow_right),
-        //           onTap: () {
-        //             //Navigator.of(context).pop();
-        //             Navigator.of(context).push(new MaterialPageRoute(
-        //                 builder: (BuildContext context) =>
-        //                     new InfoPage("Info")));
-        //           }),
-        //       Divider(
-        //         color: Colors.black,
-        //       ),
-        //       new ListTile(
-        //           title: new Text("Settings"),
-        //           leading: Icon(Icons.settings),
-        //           trailing: Icon(Icons.arrow_right),
-        //           onTap: () {
-        //             Navigator.of(context).push(new MaterialPageRoute(
-        //                 builder: (BuildContext context) =>
-        //                     new SettingsPage("Settings")));
-        //           }),
-        //       new ListTile(
-        //           title: new Text("About"),
-        //           leading: Icon(Icons.help),
-        //           trailing: Icon(Icons.arrow_right),
-        //           onTap: () {
-        //             Navigator.of(context).push(new MaterialPageRoute(
-        //                 builder: (BuildContext context) =>
-        //                     new InfoPage("About")));
-        //           }),
-        //     ],
-        //   ),
-        // ),
         body: Stack(
           children: <Widget>[
             GoogleMap(
@@ -223,9 +162,9 @@ class _MyAppState extends State<MyHomePage> {
             AnimatedPositioned(
               duration: Duration(milliseconds: 600),
               top: _cardStates == CardStates.halfVisible
-                  ? MediaQuery.of(context).size.height - 280
+                  ? MediaQuery.of(context).size.height - 250
                   : _cardStates == CardStates.fullVisible
-                      ? MediaQuery.of(context).size.height - 450
+                      ? MediaQuery.of(context).size.height - 600
                       : MediaQuery.of(context).size.height,
               child: InkWell(
                 onTap: () {
@@ -239,6 +178,20 @@ class _MyAppState extends State<MyHomePage> {
                   padding: EdgeInsets.only(top: 20),
                   child: Column(
                     children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.circular(20)),
+                            height: 5,
+                            width: 50,
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
@@ -276,7 +229,7 @@ class _MyAppState extends State<MyHomePage> {
                                               color: Colors.white,
                                               fontSize: timeTo['hours'] != 0
                                                   ? 20
-                                                  : 25),
+                                                  : 20),
                                         )
                                       ],
                                     )),
@@ -287,10 +240,10 @@ class _MyAppState extends State<MyHomePage> {
                                   color: secondaryBlue,
                                   boxShadow: [
                                     BoxShadow(
-                                      color: secondaryBlue,
-                                      spreadRadius: 1,
-                                      blurRadius: 1.5,
-                                    ),
+                                        color: Colors.grey,
+                                        spreadRadius: 2,
+                                        blurRadius: 1.5,
+                                        offset: Offset.zero),
                                   ],
                                   gradient: LinearGradient(
                                       begin: Alignment.bottomRight,
@@ -306,8 +259,8 @@ class _MyAppState extends State<MyHomePage> {
                                       ]),
                                   // color: Colors.white,
                                 ),
-                                height: 100,
-                                width: 100,
+                                height: 90,
+                                width: 90,
                               ),
                             ],
                           ),
@@ -348,10 +301,10 @@ class _MyAppState extends State<MyHomePage> {
 
                                   boxShadow: [
                                     BoxShadow(
-                                      color: secondaryBlue,
-                                      spreadRadius: 1,
-                                      blurRadius: 1.5,
-                                    ),
+                                        color: Colors.grey,
+                                        spreadRadius: 2,
+                                        blurRadius: 1.5,
+                                        offset: Offset.zero),
                                   ],
 
                                   gradient: LinearGradient(
@@ -368,8 +321,8 @@ class _MyAppState extends State<MyHomePage> {
                                       ]),
                                   // color: Colors.white,
                                 ),
-                                height: 100,
-                                width: 100,
+                                height: 90,
+                                width: 90,
                               ),
                             ],
                           ),
@@ -396,7 +349,7 @@ class _MyAppState extends State<MyHomePage> {
                                         Text('₦300',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              fontSize: 28,
+                                              fontSize: 22,
                                               color: Colors.white,
                                             ))
                                       ],
@@ -408,10 +361,10 @@ class _MyAppState extends State<MyHomePage> {
                                   color: secondaryBlue,
                                   boxShadow: [
                                     BoxShadow(
-                                      color: secondaryBlue,
-                                      spreadRadius: 1,
-                                      blurRadius: 1.5,
-                                    ),
+                                        color: Colors.grey,
+                                        spreadRadius: 2,
+                                        blurRadius: 1.5,
+                                        offset: Offset.zero),
                                   ],
                                   gradient: LinearGradient(
                                       begin: Alignment.bottomRight,
@@ -426,8 +379,8 @@ class _MyAppState extends State<MyHomePage> {
                                         1,
                                       ]),
                                 ),
-                                height: 100,
-                                width: 100,
+                                height: 90,
+                                width: 90,
                               ),
                             ],
                           ),
@@ -443,31 +396,11 @@ class _MyAppState extends State<MyHomePage> {
                     ],
                   ),
                   width: MediaQuery.of(context).size.width,
-                  height: 400,
+                  height: 600,
                   alignment: Alignment.center,
                   decoration: new BoxDecoration(
-                    // gradient: LinearGradient(
-                    //     begin: Alignment.bottomCenter,
-                    //     end: Alignment.topCenter,
-                    //     colors: [
-                    //       primaryBlue,
-                    //       secondaryBlue,
-                    //       Colors.transparent,
-                    //     ],
-                    //     stops: [
-                    //       0.3,
-                    //       0.6,
-                    //       0.1
-                    //     ]),
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(25.0),
-                    // boxShadow: [
-                    //   BoxShadow(
-                    //       // color: Colors.blue[900],
-                    //       offset: Offset(1.0, 5.0),
-                    //       blurRadius: 10,
-                    //       spreadRadius: 1)
-                    // ],
                   ),
                 ),
               ),
@@ -486,13 +419,6 @@ class _MyAppState extends State<MyHomePage> {
                           topRight: Radius.circular(15),
                           topLeft: Radius.circular(15)),
                       color: Colors.white,
-                      // boxShadow: [
-                      //   BoxShadow(
-                      //       color: Colors.grey,
-                      //       offset: Offset(1.0, 5.0),
-                      //       blurRadius: 7,
-                      //       spreadRadius: 1)
-                      // ],
                     ),
                     child: TextField(
                       controller: going,
@@ -534,9 +460,16 @@ class _MyAppState extends State<MyHomePage> {
 
                             }
                             if (_fromMarker != null && _toMarker != null) {
-                              _getPolyline();
-                              calculateDistanceKM();
-                              calculateDistance();
+                              setState(() {
+                                _cardStates = CardStates.halfVisible;
+                                _getPolyline();
+                                calculateDistanceKM();
+                                calculateDistance();
+                                noOfStops();
+                                setListView();
+                                print('stopList: First  ${stopLists.first}');
+                                print('stopList: First  ${stopLists.last}');
+                              });
                             }
                           });
                         }
@@ -607,7 +540,6 @@ class _MyAppState extends State<MyHomePage> {
                                         _fromMarker.position) ||
                                 _fromMarker == null) {
                               Marker newMarker = Marker(
-                                  // This marker id can be anything that uniquely identifies each marker.
                                   markerId: MarkerId(
                                     ('$result'),
                                   ),
@@ -621,15 +553,13 @@ class _MyAppState extends State<MyHomePage> {
                               _toMarker = newMarker;
                               _markers.add(newMarker);
 
-                              _getPolyline();
-
-                              calculateDistanceKM();
-                              calculateDistance();
-                              noOfStops();
-                              // _onCameraMove(CameraPosition(target: _fromMarker.position,  );
-
                               setState(() {
                                 _cardStates = CardStates.halfVisible;
+                                _getPolyline();
+                                calculateDistanceKM();
+                                calculateDistance();
+                                noOfStops();
+                                setListView();
                               });
                             } else {
                               print("Snack Bar Displayed");
@@ -642,7 +572,6 @@ class _MyAppState extends State<MyHomePage> {
                         }
 
                         whereToSelected();
-
                         polylineCoordinates.clear();
                       },
                       decoration: InputDecoration(
@@ -720,21 +649,8 @@ class _MyAppState extends State<MyHomePage> {
       'hours': timeTaken.floor(),
       'minutes': ((timeTaken % 1) * 60).ceil()
     };
-    // kmString = km.toString();
+
     print('$km kilometers');
-    // });
-  }
-
-  String _setImage() {
-    var a = BusStops.busStopIndex.values.first;
-
-    var b = BusStops.busStopIndex.values.last;
-
-    if (BusStops.busStopIndex.values != a || b) {
-      return 'images/2nd_node.png';
-    } else {
-      return 'images/1st_node.png';
-    }
   }
 
   void noOfStops() {
@@ -747,7 +663,7 @@ class _MyAppState extends State<MyHomePage> {
     if (stops < 0) {
       stops = ((stops) - (2 * stops));
     }
-    print('$stops stops');
+    // print('$stops stops');
 
     int c = 0;
     for (int i = x; c <= stops; y > x ? i++ : i--) {
@@ -758,111 +674,138 @@ class _MyAppState extends State<MyHomePage> {
     // });
   }
 
+  void setListView() {
+    setState(() {
+      return buildListView();
+    });
+  }
+
   Widget buildListView() {
     Map stopListMap = stopLists.asMap();
-    print(stopListMap);
-    var i = 0;
+    return Container(
+      // height: 200,
+      child: ListView.builder(
+        shrinkWrap: true,
+        scrollDirection: Axis.vertical,
+        itemCount: stopListMap.length,
+        itemBuilder: (BuildContext context, int index) {
+          Widget _setNode() {
+            if (stopListMap[index] == stopListMap.values.first) {
+              return Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.all(5),
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topLeft,
+                      colors: [
+                        primaryBlue,
+                        secondaryBlue,
+                      ]),
+                ),
+              );
+            } else if (stopListMap[index] == stopListMap.values.last) {
+              return Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.all(5),
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topLeft,
+                      colors: [
+                        primaryBlue,
+                        secondaryBlue,
+                      ]),
+                ),
+              );
+            } else {
+              return Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.all(5),
+                width: 25,
+                height: 25,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                          color: secondaryBlue,
+                          spreadRadius: 0.5,
+                          offset: Offset(0.5, 1.0))
+                    ],
+                    color: secondaryBlue),
+              );
+            }
+          }
 
-    for (i = 0; i < stopLists.length; i++) {
-      print(stopListMap[i]);
-    }
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[_setNode()],
+              ),
+              Column(
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.all(20),
+                    child: Text(
+                      '${stopListMap[index]}',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    height: 75,
+                    width: MediaQuery.of(context).size.width - 150,
+                    decoration: BoxDecoration(
+                      // boxShadow: [BoxShadow(color: Colors.grey, spreadRadius: 1)],
+                      color: Colors.white,
 
-    // final indiStopListMap = stopListMap[0];
-    // print(indiStopListMap);
-    print('::::::');
-
-    return ListView.builder(
-      shrinkWrap: true,
-      scrollDirection: Axis.vertical,
-      itemCount: stopListMap.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.all(5),
-                  width: 70,
-                  height: 70,
-                  // color: Colors.white,
-                  // child: Text(
-                  //   'Icon',
-                  //   style: TextStyle(
-                  //       color: Colors.black,
-                  //       fontSize: 15,
-                  //       fontWeight: FontWeight.w500),
-                  // ),
-                  decoration: BoxDecoration(
-                    image: new DecorationImage(
-                      fit: BoxFit.fitHeight,
-                      image: AssetImage(_setImage()),
+                      borderRadius: BorderRadius.circular(12.0),
+                      // shape: BoxShape.rectangle,
                     ),
                   ),
-                  // borderRadius: BorderRadius.circular(10),
-                  // color: Colors.white,
-                  // boxShadow: [
-                  //   BoxShadow(color: Colors.grey, spreadRadius: 1)
-                  // ]),
-                ),
-              ],
-            ),
-            Column(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.all(20),
-                  child: Text(
-                    '${stopListMap[index]}',
-                    style: TextStyle(
+                ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(5),
+                    width: 50,
+                    height: 75,
+                    // color: Colors.white,
+                    child: Text(
+                      '15:00',
+                      // textAlign: TextAlign.center,
+                      style: TextStyle(
                         color: Colors.black,
                         fontSize: 15,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  height: 75,
-                  width: MediaQuery.of(context).size.width - 150,
-                  decoration: BoxDecoration(
-                    // boxShadow: [BoxShadow(color: Colors.grey, spreadRadius: 1)],
-                    color: Colors.white,
-
-                    borderRadius: BorderRadius.circular(12.0),
-                    // shape: BoxShape.rectangle,
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.all(5),
-                  width: 50,
-                  height: 75,
-                  // color: Colors.white,
-                  child: Text(
-                    '15:00',
-                    // textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      // boxShadow: [
+                      //   BoxShadow(color: Colors.grey, spreadRadius: 1)
+                      // ]
                     ),
                   ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                    // boxShadow: [
-                    //   BoxShadow(color: Colors.grey, spreadRadius: 1)
-                    // ]
-                  ),
-                ),
-              ],
-            ),
-          ],
-        );
-      },
+                ],
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 
