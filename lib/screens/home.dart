@@ -11,6 +11,7 @@ import 'about.dart';
 import 'settings.dart';
 import 'listView.dart';
 import 'package:latlong/latlong.dart' as A;
+import 'package:intl/intl.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 // import 'package:firebase_admob/firebase_admob.dart';
@@ -25,6 +26,9 @@ class _MyAppState extends State<MyHomePage> {
   final A.Distance distance = new A.Distance();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  DateTime now = DateTime.now();
+  DateFormat dateFormatter = DateFormat('kk:mm');
 
   String kmString;
   _showSnackBar() {
@@ -781,7 +785,7 @@ class _MyAppState extends State<MyHomePage> {
                     height: 75,
                     // color: Colors.white,
                     child: Text(
-                      '15:00',
+                      '${dateFormatter.format(now.add(Duration(minutes: 5 * index)))}',
                       // textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black,
