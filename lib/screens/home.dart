@@ -466,7 +466,7 @@ class _MyAppState extends State<MyHomePage> {
                                 calculateDistanceKM();
                                 calculateDistance();
                                 noOfStops();
-                                setListView();
+
                                 print('stopList: First  ${stopLists.first}');
                                 print('stopList: First  ${stopLists.last}');
                               });
@@ -559,7 +559,6 @@ class _MyAppState extends State<MyHomePage> {
                                 calculateDistanceKM();
                                 calculateDistance();
                                 noOfStops();
-                                setListView();
                               });
                             } else {
                               print("Snack Bar Displayed");
@@ -654,7 +653,7 @@ class _MyAppState extends State<MyHomePage> {
   }
 
   void noOfStops() {
-    // setState(() {
+    stopLists.clear();
     var x = BusStops.busStopIndex[_fromMarker.markerId.value];
     var y = BusStops.busStopIndex[_toMarker.markerId.value];
 
@@ -670,13 +669,11 @@ class _MyAppState extends State<MyHomePage> {
       c++;
       stopLists.add(BusStops.busStopIndex.keys.toList()[i - 1]);
     }
-
-    // });
   }
 
   void setListView() {
     setState(() {
-      return buildListView();
+      buildListView();
     });
   }
 
