@@ -392,7 +392,7 @@ class _MyAppState extends State<MyHomePage> {
                           color: Colors.grey,
                         ),
                       ),
-                      buildListView()
+                      Expanded(child: buildListView())
                     ],
                   ),
                   width: MediaQuery.of(context).size.width,
