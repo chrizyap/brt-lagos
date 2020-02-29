@@ -11,6 +11,7 @@ class DataSearch extends SearchDelegate {
         icon: Icon(Icons.clear),
         onPressed: () {
           query = '';
+          
         },
       ),
     ];
@@ -25,7 +26,9 @@ class DataSearch extends SearchDelegate {
     return IconButton(
       icon: Icon(Icons.arrow_back),
       onPressed: () {
-        close(context, null);
+        close(context, query);
+
+         
       },
     );
   }
@@ -105,6 +108,7 @@ final recentBusStops = [
   "Onipanu",
   "Palmgrove",
   "Obanikoro",
+  "TBS Terminal"
 ];
 
 //noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);

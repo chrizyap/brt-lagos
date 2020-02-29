@@ -429,61 +429,23 @@ class _MyAppState extends State<MyHomePage> {
                       onTap: () async {
                         dynamic result = await showSearch(
                             context: context, delegate: DataSearch());
-
                         going.text = result;
+                        print('Where from: ${going.text}');
 
-                        print('Where from: $result');
-                        void whereFromSelected() {
-                          setState(() {
-                            if (_fromMarker != null) {
-                              _markers.remove(_fromMarker);
-                            }
-                            if ((_fromMarker != null &&
-                                    BusStops.busStopMap[result] !=
-                                        _toMarker.position) ||
-                                _fromMarker == null) {
-                              Marker newMarker = Marker(
-                                  // This marker id can be anything that uniquely identifies each marker.
-                                  markerId: MarkerId(
-                                    ('$result'),
-                                  ),
-                                  //make position respond to user selection
-                                  position: BusStops.busStopMap[result],
-                                  infoWindow: InfoWindow(title: ('$result')
-
-                                      //snippet: '5 Star Rating',
-                                      ),
-                                  icon: BitmapDescriptor.defaultMarkerWithHue(
-                                      BitmapDescriptor.hueBlue));
-                              _fromMarker = newMarker;
-                              _markers.add(newMarker);
-                            } else {
-                              _showSnackBar();
-                              print("Snackbar Displayed");
-                              //Add toast to show user you can't do this.
-
-                            }
-                            if (_fromMarker != null && _toMarker != null) {
-                              setState(() {
-                                _cardStates = CardStates.halfVisible;
-                                _getPolyline();
-                                calculateDistanceKM();
-                                calculateDistance();
-                                noOfStops();
-
-                                print('stopList: First  ${stopLists.first}');
-                                print('stopList: First  ${stopLists.last}');
-                              });
-                            }
-                          });
+                        if (_fromMarker != null &&
+                                BusStops.busStopMap[result] !=
+                                    _toMarker.position ||
+                            _fromMarker == null) {
+                          whereFromSelected();
+                        } else if (_fromMarker.position != null &&
+                            _toMarker.position != null) {
+                          _createRoute();
+                        } else if (_fromMarker.position == _toMarker.position) {
+                          _showSnackBar();
+                          print("Snackbar Displayed");
                         }
-
-                        whereFromSelected();
-                        //polylineCoordinates.clear();
                       },
-
                       cursorColor: Colors.black,
-                      //controller: appState.locationController,
                       decoration: InputDecoration(
                         icon: Container(
                           margin: EdgeInsets.only(left: 20, top: 0),
@@ -533,49 +495,27 @@ class _MyAppState extends State<MyHomePage> {
                         dynamic result = await showSearch(
                             context: context, delegate: DataSearch());
                         coming.text = going.text != result ? result : '';
-                        print('Where to: $result');
-                        void whereToSelected() {
-                          setState(() {
-                            if (_toMarker != null) {
-                              _markers.remove(_toMarker);
-                            }
-                            if ((_fromMarker != null &&
-                                    BusStops.busStopMap[result] !=
-                                        _fromMarker.position) ||
-                                _fromMarker == null) {
-                              Marker newMarker = Marker(
-                                  markerId: MarkerId(
-                                    ('$result'),
-                                  ),
-                                  //make position respond to user selection
-                                  position: BusStops.busStopMap[result],
-                                  infoWindow: InfoWindow(
-                                    title: ('$result'),
-                                  ),
-                                  icon: BitmapDescriptor.defaultMarkerWithHue(
-                                      BitmapDescriptor.hueBlue));
-                              _toMarker = newMarker;
-                              _markers.add(newMarker);
+                        print('Where to: ${coming.text}');
 
-                              setState(() {
-                                _cardStates = CardStates.halfVisible;
-                                _getPolyline();
-                                calculateDistanceKM();
-                                calculateDistance();
-                                noOfStops();
-                              });
-                            } else {
-                              print("Snack Bar Displayed");
-                              _showSnackBar();
-                              //Add toast to show user you can't do this.
-
-                              polylineCoordinates.clear();
-                            }
-                          });
+                        if (_fromMarker != null &&
+                                BusStops.busStopMap[result] !=
+                                    _fromMarker.position ||
+                            _fromMarker == null) {
+                          whereToSelected();
+                          _createRoute();
+                        } else {
+                          _showSnackBar();
+                          print("Snackbar Displayed");
                         }
 
-                        whereToSelected();
-                        polylineCoordinates.clear();
+                        // if (_fromMarker != null && _toMarker != null) {
+                        //   _createRoute();
+                        // }
+
+                        // if (_fromMarker.position == _toMarker.position) {
+                        //   _showSnackBar();
+                        //   print("Snackbar Displayed");
+                        // }
                       },
                       decoration: InputDecoration(
                         icon: Container(
@@ -604,6 +544,54 @@ class _MyAppState extends State<MyHomePage> {
     mapController = controller;
   }
 
+  void whereFromSelected() {
+    if (going.text != null) {
+      _markers.remove(_fromMarker);
+      polylines.clear();
+      Marker newMarker = Marker(
+          markerId: MarkerId(
+            ('${going.text}'),
+          ),
+          position: BusStops.busStopMap[going.text],
+          infoWindow: InfoWindow(title: ('${going.text}')),
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue));
+      _fromMarker = newMarker;
+      _markers.add(_fromMarker);
+      print('From Marker:$_fromMarker');
+    }
+  }
+
+  void whereToSelected() {
+    if (coming.text != null) {
+      _markers.remove(_toMarker);
+      Marker newMarker = Marker(
+          markerId: MarkerId(
+            ('${coming.text}'),
+          ),
+          position: BusStops.busStopMap[coming.text],
+          infoWindow: InfoWindow(
+            title: ('${coming.text}'),
+          ),
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue));
+      _toMarker = newMarker;
+      _markers.add(newMarker);
+    }
+  }
+
+  void _createRoute() {
+    polylineCoordinates.clear();
+    polylines.clear();
+    _cardStates = CardStates.halfVisible;
+    _getPolyline();
+    calculateDistanceKM();
+    calculateDistance();
+    noOfStops();
+    print('stopList: First  ${stopLists.first}');
+    print('stopList: Last  ${stopLists.last}');
+  }
+
   _addPolyLine() {
     PolylineId id = PolylineId("poly");
     Polyline polyline = Polyline(
@@ -626,8 +614,9 @@ class _MyAppState extends State<MyHomePage> {
       result1.forEach((PointLatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
+
+      _addPolyLine();
     }
-    _addPolyLine();
   }
 
   void calculateDistance() {
@@ -789,7 +778,7 @@ class _MyAppState extends State<MyHomePage> {
                       // textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 15,
+                        fontSize: 14,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
