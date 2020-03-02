@@ -558,6 +558,7 @@ class _MyAppState extends State<MyHomePage> {
               BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue));
       _fromMarker = newMarker;
       _markers.add(_fromMarker);
+      print('goinng.text: ${going.text}');
       print('From Marker:$_fromMarker');
     }
   }
@@ -577,6 +578,8 @@ class _MyAppState extends State<MyHomePage> {
               BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue));
       _toMarker = newMarker;
       _markers.add(newMarker);
+      print('goinng.text: ${coming.text}');
+      print('From Marker:$_toMarker');
     }
   }
 
