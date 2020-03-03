@@ -432,17 +432,28 @@ class _MyAppState extends State<MyHomePage> {
                         going.text = result;
                         print('Where from: ${going.text}');
 
-                        if (_fromMarker != null &&
-                                BusStops.busStopMap[result] !=
-                                    _toMarker.position ||
-                            _fromMarker == null) {
+                        // if (_fromMarker != null &&
+                        //         BusStops.busStopMap[result] !=
+                        //             _toMarker.position ||
+                        //     _fromMarker == null) {
+                        //   whereFromSelected();
+                        // } else if (_fromMarker.position != null &&
+                        //     _toMarker.position != null) {
+                        //   _createRoute();
+                        // } else if (_fromMarker.position == _toMarker.position) {
+                        //   _showSnackBar();
+                        //   print("Snackbar Displayed");
+                        // }
+                        if (_fromMarker == null) {
                           whereFromSelected();
-                        } else if (_fromMarker.position != null &&
-                            _toMarker.position != null) {
+                        } else if (_fromMarker != null &&
+                            _toMarker != null &&
+                            BusStops.busStopMap[result] != coming.text) {
+                          whereFromSelected();
                           _createRoute();
-                        } else if (_fromMarker.position == _toMarker.position) {
+                        } else if (_fromMarker == _toMarker) {
                           _showSnackBar();
-                          print("Snackbar Displayed");
+                          print('Snack bar displayed');
                         }
                       },
                       cursorColor: Colors.black,
@@ -498,24 +509,14 @@ class _MyAppState extends State<MyHomePage> {
                         print('Where to: ${coming.text}');
 
                         if (_fromMarker != null &&
-                                BusStops.busStopMap[result] !=
-                                    _fromMarker.position ||
-                            _fromMarker == null) {
+                            BusStops.busStopMap[result] !=
+                                _fromMarker.position) {
                           whereToSelected();
                           _createRoute();
                         } else {
                           _showSnackBar();
                           print("Snackbar Displayed");
                         }
-
-                        // if (_fromMarker != null && _toMarker != null) {
-                        //   _createRoute();
-                        // }
-
-                        // if (_fromMarker.position == _toMarker.position) {
-                        //   _showSnackBar();
-                        //   print("Snackbar Displayed");
-                        // }
                       },
                       decoration: InputDecoration(
                         icon: Container(
@@ -558,8 +559,6 @@ class _MyAppState extends State<MyHomePage> {
               BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue));
       _fromMarker = newMarker;
       _markers.add(_fromMarker);
-      print('goinng.text: ${going.text}');
-      print('From Marker:$_fromMarker');
     }
   }
 
@@ -578,19 +577,17 @@ class _MyAppState extends State<MyHomePage> {
               BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue));
       _toMarker = newMarker;
       _markers.add(newMarker);
-      print('goinng.text: ${coming.text}');
-      print('From Marker:$_toMarker');
     }
   }
 
   void _createRoute() {
     polylineCoordinates.clear();
     polylines.clear();
-    _cardStates = CardStates.halfVisible;
     _getPolyline();
     calculateDistanceKM();
     calculateDistance();
     noOfStops();
+    _cardStates = CardStates.halfVisible;
     print('stopList: First  ${stopLists.first}');
     print('stopList: Last  ${stopLists.last}');
   }
@@ -653,7 +650,7 @@ class _MyAppState extends State<MyHomePage> {
     var x = BusStops.busStopIndex[_fromMarker.markerId.value];
     var y = BusStops.busStopIndex[_toMarker.markerId.value];
 
-    print('$x' '-' '$y');
+    // print('$x' '-' '$y');
     stops = (x - y);
     if (stops < 0) {
       stops = ((stops) - (2 * stops));
@@ -667,16 +664,9 @@ class _MyAppState extends State<MyHomePage> {
     }
   }
 
-  void setListView() {
-    setState(() {
-      buildListView();
-    });
-  }
-
   Widget buildListView() {
     Map stopListMap = stopLists.asMap();
     return Container(
-      // height: 200,
       child: ListView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
