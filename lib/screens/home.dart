@@ -71,6 +71,9 @@ class _MyAppState extends State<MyHomePage> {
   PolylinePoints polylinePoints = PolylinePoints();
   String googleAPiKey = "AIzaSyAVTGrgDL3-VpSWaEjdvgHDJxc_ffzWGmE";
 
+  //static LatLng _tbsTerminal = LatLng(6.445721, 3.401200);
+  //static LatLng _cmsTerminal = LatLng(6.451145, 3.389201);
+
   Map timeTo = {'hours': 5, 'minutes': 30};
   var stops = 0;
   var stopsString = '';
@@ -429,6 +432,18 @@ class _MyAppState extends State<MyHomePage> {
                         going.text = result;
                         print('Where from: ${going.text}');
 
+                        // if (_fromMarker != null &&
+                        //         BusStops.busStopMap[result] !=
+                        //             _toMarker.position ||
+                        //     _fromMarker == null) {
+                        //   whereFromSelected();
+                        // } else if (_fromMarker.position != null &&
+                        //     _toMarker.position != null) {
+                        //   _createRoute();
+                        // } else if (_fromMarker.position == _toMarker.position) {
+                        //   _showSnackBar();
+                        //   print("Snackbar Displayed");
+                        // }
                         if (_fromMarker == null) {
                           whereFromSelected();
                         } else if (_fromMarker != null &&
