@@ -107,7 +107,7 @@ class _MyAppState extends State<MyHomePage> {
             Text(
               'Map',
               style: TextStyle(
-                  height: 3,
+                  height: 5,
                   fontSize: 19,
                   fontWeight: FontWeight.w500,
                   color: Colors.white),
