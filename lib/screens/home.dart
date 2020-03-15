@@ -2,16 +2,16 @@ import 'package:brtbus/core/busStops.dart';
 import 'package:brtbus/screens/settings.dart';
 import 'package:brtbus/themes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'info.dart';
 import 'about.dart';
 import 'settings.dart';
-import 'listView.dart';
+import 'searchListView.dart';
 import 'package:latlong/latlong.dart' as A;
 import 'package:intl/intl.dart';
+import 'package:flutter_offline/flutter_offline.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 // import 'package:firebase_admob/firebase_admob.dart';
@@ -22,8 +22,12 @@ class MyHomePage extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyHomePage> {
+class _MyAppState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
   final A.Distance distance = new A.Distance();
+  AnimationController _controller;
+  Duration _duration = Duration(milliseconds: 500);
+  Tween<Offset> _tween = Tween(begin: Offset(0, 1), end: Offset(0, 0));
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -83,6 +87,7 @@ class _MyAppState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    _controller = AnimationController(vsync: this, duration: _duration);
   }
 
   MapType _currentMapType = MapType.normal;
@@ -110,8 +115,8 @@ class _MyAppState extends State<MyHomePage> {
             Text(
               'Map',
               style: TextStyle(
-                  height: 5,
-                  fontSize: 19,
+                  height: 4,
+                  fontSize: 18,
                   fontWeight: FontWeight.w500,
                   color: Colors.white),
               textAlign: TextAlign.center,
@@ -128,6 +133,8 @@ class _MyAppState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Map stopListMap = stopLists.asMap();
+
     // FirebaseAdMob.instance
     //     .initialize(appId: "ca-app-pub-3603864222235662~7855339836");
     // //     .then((response) {
@@ -163,251 +170,417 @@ class _MyAppState extends State<MyHomePage> {
               polylines: Set<Polyline>.of(polylines.values),
               onCameraMove: _onCameraMove,
             ),
-            AnimatedPositioned(
-              duration: Duration(milliseconds: 600),
-              top: _cardStates == CardStates.halfVisible
-                  ? MediaQuery.of(context).size.height - 250
-                  : _cardStates == CardStates.fullVisible
-                      ? MediaQuery.of(context).size.height - 600
-                      : MediaQuery.of(context).size.height,
-              child: InkWell(
-                onTap: () {
-                  setState(() {
-                    _cardStates = _cardStates == CardStates.fullVisible
-                        ? CardStates.halfVisible
-                        : CardStates.fullVisible;
-                  });
-                },
-                child: Container(
-                  padding: EdgeInsets.only(top: 20),
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+            SlideTransition(
+              position: _tween.animate(_controller),
+              child: DraggableScrollableSheet(
+                  // expand: true,
+                  initialChildSize: 0.35,
+                  minChildSize: 0.25,
+                  maxChildSize: 0.8,
+                  builder: (BuildContext context,
+                      ScrollController scrollcontroller) {
+                    return Container(
+                      // height: 300,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 10,
+                      ),
+
+                      child: Column(
                         children: <Widget>[
-                          Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius: BorderRadius.circular(20)),
-                            height: 5,
-                            width: 50,
-                          )
+                          Expanded(
+                              child: Column(children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey[300],
+                                      borderRadius: BorderRadius.circular(20)),
+                                  height: 5,
+                                  width: 50,
+                                )
+                              ],
+                            ),
+                            SizedBox(height: 10),
+                            Expanded(
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                controller: scrollcontroller,
+                                itemCount: stopListMap.length + 1,
+                                itemBuilder: (BuildContext context, int index) {
+                                  Widget _setNode() {
+                                    if (stopListMap[index] ==
+                                        stopListMap.values.elementAt(1)) {
+                                      return Container(
+                                        alignment: Alignment.center,
+                                        padding: EdgeInsets.all(5),
+                                        width: 40,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          gradient: LinearGradient(
+                                              begin: Alignment.bottomCenter,
+                                              end: Alignment.topLeft,
+                                              colors: [
+                                                primaryBlue,
+                                                secondaryBlue,
+                                              ]),
+                                        ),
+                                      );
+                                    } else if (stopListMap[index] ==
+                                        stopListMap.values.last) {
+                                      return Container(
+                                        alignment: Alignment.center,
+                                        padding: EdgeInsets.all(5),
+                                        width: 40,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          gradient: LinearGradient(
+                                              begin: Alignment.bottomCenter,
+                                              end: Alignment.topLeft,
+                                              colors: [
+                                                primaryBlue,
+                                                secondaryBlue,
+                                              ]),
+                                        ),
+                                      );
+                                    } else {
+                                      return Container(
+                                        alignment: Alignment.center,
+                                        padding: EdgeInsets.all(5),
+                                        width: 25,
+                                        height: 25,
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: secondaryBlue,
+                                                  spreadRadius: 0.5,
+                                                  offset: Offset(0.5, 1.0))
+                                            ],
+                                            color: secondaryBlue),
+                                      );
+                                    }
+                                  }
+
+                                  if (index == 0) {
+                                    return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: <Widget>[
+                                        //Time
+                                        Column(
+                                          children: <Widget>[
+                                            Container(
+                                              padding: EdgeInsets.all(7),
+                                              child: Column(
+                                                children: <Widget>[
+                                                  Text(
+                                                    "Time",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 20.0,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                  Expanded(
+                                                      child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      timeTo['hours'] != 0
+                                                          ? Text(
+                                                              '${timeTo['hours']} hr',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: TextStyle(
+                                                                  fontSize: 38),
+                                                            )
+                                                          : Container(),
+                                                      Text(
+                                                        '${timeTo['minutes']} min',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize:
+                                                                timeTo['hours'] !=
+                                                                        0
+                                                                    ? 20
+                                                                    : 20),
+                                                      )
+                                                    ],
+                                                  )),
+                                                ],
+                                              ),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15.0),
+                                                color: secondaryBlue,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      color: Colors.grey,
+                                                      spreadRadius: 2,
+                                                      blurRadius: 1.5,
+                                                      offset: Offset.zero),
+                                                ],
+                                                gradient: LinearGradient(
+                                                    begin:
+                                                        Alignment.bottomRight,
+                                                    end: Alignment.topLeft,
+                                                    colors: [
+                                                      primaryBlue,
+                                                      secondaryBlue,
+                                                      // Colors.white,
+                                                    ],
+                                                    stops: [
+                                                      0.4,
+                                                      1,
+                                                    ]),
+                                                // color: Colors.white,
+                                              ),
+                                              height: 90,
+                                              width: 90,
+                                            ),
+                                          ],
+                                        ),
+                                        //Stops Column
+                                        Column(
+                                          children: <Widget>[
+                                            Container(
+                                              padding: EdgeInsets.all(7),
+                                              child: Column(
+                                                children: <Widget>[
+                                                  Text(
+                                                    "Stops",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 20.0,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                  Expanded(
+                                                      child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        ('$stops'),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                            fontSize: 30,
+                                                            color:
+                                                                Colors.white),
+                                                      )
+                                                    ],
+                                                  )),
+                                                ],
+                                              ),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15.0),
+                                                color: secondaryBlue,
+
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      color: Colors.grey,
+                                                      spreadRadius: 2,
+                                                      blurRadius: 1.5,
+                                                      offset: Offset.zero),
+                                                ],
+
+                                                gradient: LinearGradient(
+                                                    begin:
+                                                        Alignment.bottomRight,
+                                                    end: Alignment.topLeft,
+                                                    colors: [
+                                                      primaryBlue,
+                                                      secondaryBlue,
+                                                      // Colors.white,
+                                                    ],
+                                                    stops: [
+                                                      0.4,
+                                                      1,
+                                                    ]),
+                                                // color: Colors.white,
+                                              ),
+                                              height: 90,
+                                              width: 90,
+                                            ),
+                                          ],
+                                        ),
+                                        //Fee Column
+                                        Column(
+                                          children: <Widget>[
+                                            Container(
+                                              padding: EdgeInsets.all(7),
+                                              child: Column(
+                                                children: <Widget>[
+                                                  Text(
+                                                    "Fee",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 20.0,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                  Expanded(
+                                                      child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      Text('₦300',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                            fontSize: 22,
+                                                            color: Colors.white,
+                                                          ))
+                                                    ],
+                                                  )),
+                                                ],
+                                              ),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15.0),
+                                                color: secondaryBlue,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      color: Colors.grey,
+                                                      spreadRadius: 2,
+                                                      blurRadius: 1.5,
+                                                      offset: Offset.zero),
+                                                ],
+                                                gradient: LinearGradient(
+                                                    begin:
+                                                        Alignment.bottomRight,
+                                                    end: Alignment.topLeft,
+                                                    colors: [
+                                                      primaryBlue,
+                                                      secondaryBlue,
+                                                      // Colors.white,
+                                                    ],
+                                                    stops: [
+                                                      0.4,
+                                                      1,
+                                                    ]),
+                                              ),
+                                              height: 90,
+                                              width: 90,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+
+                                      //  Padding(
+                                      //     padding:
+                                      //         const EdgeInsets.symmetric(
+                                      //             vertical: 8.0),
+                                      //     child: Divider(
+                                      //       color: Colors.grey,
+                                      //     ),
+                                      //   ),
+                                    );
+                                  } else {
+                                    return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: <Widget>[
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[_setNode()],
+                                        ),
+                                        Column(
+                                          children: <Widget>[
+                                            Container(
+                                              alignment: Alignment.centerLeft,
+                                              padding: EdgeInsets.all(20),
+                                              child: Text(
+                                                '${stopListMap[index - 1]}',
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                              height: 75,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  150,
+                                              decoration: BoxDecoration(
+                                                // boxShadow: [BoxShadow(color: Colors.grey, spreadRadius: 1)],
+                                                color: Colors.white,
+
+                                                borderRadius:
+                                                    BorderRadius.circular(12.0),
+                                                // shape: BoxShape.rectangle,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Container(
+                                              alignment: Alignment.center,
+                                              padding: EdgeInsets.all(5),
+                                              width: 50,
+                                              height: 75,
+                                              // color: Colors.white,
+                                              child: Text(
+                                                '${dateFormatter.format(now.add(Duration(minutes: 5 * index)))}',
+                                                // textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: Colors.white,
+                                                // boxShadow: [
+                                                //   BoxShadow(color: Colors.grey, spreadRadius: 1)
+                                                // ]
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    );
+                                  }
+                                },
+                              ),
+                            ),
+                          ])),
                         ],
                       ),
-                      SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          //Time
-                          Column(
-                            children: <Widget>[
-                              Container(
-                                padding: EdgeInsets.all(7),
-                                child: Column(
-                                  children: <Widget>[
-                                    Text(
-                                      "Time",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Expanded(
-                                        child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        timeTo['hours'] != 0
-                                            ? Text(
-                                                '${timeTo['hours']} hr',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(fontSize: 38),
-                                              )
-                                            : Container(),
-                                        Text(
-                                          '${timeTo['minutes']} min',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: timeTo['hours'] != 0
-                                                  ? 20
-                                                  : 20),
-                                        )
-                                      ],
-                                    )),
-                                  ],
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  color: secondaryBlue,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.grey,
-                                        spreadRadius: 2,
-                                        blurRadius: 1.5,
-                                        offset: Offset.zero),
-                                  ],
-                                  gradient: LinearGradient(
-                                      begin: Alignment.bottomRight,
-                                      end: Alignment.topLeft,
-                                      colors: [
-                                        primaryBlue,
-                                        secondaryBlue,
-                                        // Colors.white,
-                                      ],
-                                      stops: [
-                                        0.4,
-                                        1,
-                                      ]),
-                                  // color: Colors.white,
-                                ),
-                                height: 90,
-                                width: 90,
-                              ),
-                            ],
-                          ),
-                          //Stops Column
-                          Column(
-                            children: <Widget>[
-                              Container(
-                                padding: EdgeInsets.all(7),
-                                child: Column(
-                                  children: <Widget>[
-                                    Text(
-                                      "Stops",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Expanded(
-                                        child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Text(
-                                          ('$stops'),
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 30,
-                                              color: Colors.white),
-                                        )
-                                      ],
-                                    )),
-                                  ],
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  color: secondaryBlue,
 
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.grey,
-                                        spreadRadius: 2,
-                                        blurRadius: 1.5,
-                                        offset: Offset.zero),
-                                  ],
-
-                                  gradient: LinearGradient(
-                                      begin: Alignment.bottomRight,
-                                      end: Alignment.topLeft,
-                                      colors: [
-                                        primaryBlue,
-                                        secondaryBlue,
-                                        // Colors.white,
-                                      ],
-                                      stops: [
-                                        0.4,
-                                        1,
-                                      ]),
-                                  // color: Colors.white,
-                                ),
-                                height: 90,
-                                width: 90,
-                              ),
-                            ],
-                          ),
-                          //Fee Column
-                          Column(
-                            children: <Widget>[
-                              Container(
-                                padding: EdgeInsets.all(7),
-                                child: Column(
-                                  children: <Widget>[
-                                    Text(
-                                      "Fee",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Expanded(
-                                        child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Text('₦300',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 22,
-                                              color: Colors.white,
-                                            ))
-                                      ],
-                                    )),
-                                  ],
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  color: secondaryBlue,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.grey,
-                                        spreadRadius: 2,
-                                        blurRadius: 1.5,
-                                        offset: Offset.zero),
-                                  ],
-                                  gradient: LinearGradient(
-                                      begin: Alignment.bottomRight,
-                                      end: Alignment.topLeft,
-                                      colors: [
-                                        primaryBlue,
-                                        secondaryBlue,
-                                        // Colors.white,
-                                      ],
-                                      stops: [
-                                        0.4,
-                                        1,
-                                      ]),
-                                ),
-                                height: 90,
-                                width: 90,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Divider(
-                          color: Colors.grey,
-                        ),
-                      ),
-                      Expanded(child: buildListView())
-                    ],
-                  ),
-                  width: MediaQuery.of(context).size.width,
-                  height: 600,
-                  alignment: Alignment.center,
-                  decoration: new BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(25.0),
-                  ),
-                ),
-              ),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)),
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(color: Colors.grey, blurRadius: 5)
+                          ]),
+                    );
+                  }),
             ),
             Positioned(
               top: 50.6,
@@ -431,19 +604,6 @@ class _MyAppState extends State<MyHomePage> {
                             context: context, delegate: DataSearch());
                         going.text = result;
                         print('Where from: ${going.text}');
-
-                        // if (_fromMarker != null &&
-                        //         BusStops.busStopMap[result] !=
-                        //             _toMarker.position ||
-                        //     _fromMarker == null) {
-                        //   whereFromSelected();
-                        // } else if (_fromMarker.position != null &&
-                        //     _toMarker.position != null) {
-                        //   _createRoute();
-                        // } else if (_fromMarker.position == _toMarker.position) {
-                        //   _showSnackBar();
-                        //   print("Snackbar Displayed");
-                        // }
                         if (_fromMarker == null) {
                           whereFromSelected();
                         } else if (_fromMarker != null &&
@@ -590,6 +750,11 @@ class _MyAppState extends State<MyHomePage> {
     _cardStates = CardStates.halfVisible;
     print('stopList: First  ${stopLists.first}');
     print('stopList: Last  ${stopLists.last}');
+    if (_controller.isDismissed) {
+      _controller.forward();
+    } else if (_controller.isCompleted) {
+      _controller.reverse();
+    }
   }
 
   _addPolyLine() {
@@ -664,133 +829,133 @@ class _MyAppState extends State<MyHomePage> {
     }
   }
 
-  Widget buildListView() {
-    Map stopListMap = stopLists.asMap();
-    return Container(
-      child: ListView.builder(
-        shrinkWrap: true,
-        scrollDirection: Axis.vertical,
-        itemCount: stopListMap.length,
-        itemBuilder: (BuildContext context, int index) {
-          Widget _setNode() {
-            if (stopListMap[index] == stopListMap.values.first) {
-              return Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.all(5),
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topLeft,
-                      colors: [
-                        primaryBlue,
-                        secondaryBlue,
-                      ]),
-                ),
-              );
-            } else if (stopListMap[index] == stopListMap.values.last) {
-              return Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.all(5),
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topLeft,
-                      colors: [
-                        primaryBlue,
-                        secondaryBlue,
-                      ]),
-                ),
-              );
-            } else {
-              return Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.all(5),
-                width: 25,
-                height: 25,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                          color: secondaryBlue,
-                          spreadRadius: 0.5,
-                          offset: Offset(0.5, 1.0))
-                    ],
-                    color: secondaryBlue),
-              );
-            }
-          }
+  // Widget buildListView() {
+  //   Map stopListMap = stopLists.asMap();
+  //   return Container(
+  //     child: ListView.builder(
+  //       shrinkWrap: true,
+  //       scrollDirection: Axis.vertical,
+  //       itemCount: stopListMap.length,
+  //       itemBuilder: (BuildContext context, int index) {
+  //         Widget _setNode() {
+  //           if (stopListMap[index] == stopListMap.values.first) {
+  //             return Container(
+  //               alignment: Alignment.center,
+  //               padding: EdgeInsets.all(5),
+  //               width: 40,
+  //               height: 40,
+  //               decoration: BoxDecoration(
+  //                 shape: BoxShape.circle,
+  //                 gradient: LinearGradient(
+  //                     begin: Alignment.bottomCenter,
+  //                     end: Alignment.topLeft,
+  //                     colors: [
+  //                       primaryBlue,
+  //                       secondaryBlue,
+  //                     ]),
+  //               ),
+  //             );
+  //           } else if (stopListMap[index] == stopListMap.values.last) {
+  //             return Container(
+  //               alignment: Alignment.center,
+  //               padding: EdgeInsets.all(5),
+  //               width: 40,
+  //               height: 40,
+  //               decoration: BoxDecoration(
+  //                 shape: BoxShape.circle,
+  //                 gradient: LinearGradient(
+  //                     begin: Alignment.bottomCenter,
+  //                     end: Alignment.topLeft,
+  //                     colors: [
+  //                       primaryBlue,
+  //                       secondaryBlue,
+  //                     ]),
+  //               ),
+  //             );
+  //           } else {
+  //             return Container(
+  //               alignment: Alignment.center,
+  //               padding: EdgeInsets.all(5),
+  //               width: 25,
+  //               height: 25,
+  //               decoration: BoxDecoration(
+  //                   shape: BoxShape.circle,
+  //                   boxShadow: [
+  //                     BoxShadow(
+  //                         color: secondaryBlue,
+  //                         spreadRadius: 0.5,
+  //                         offset: Offset(0.5, 1.0))
+  //                   ],
+  //                   color: secondaryBlue),
+  //             );
+  //           }
+  //         }
 
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[_setNode()],
-              ),
-              Column(
-                children: <Widget>[
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.all(20),
-                    child: Text(
-                      '${stopListMap[index]}',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    height: 75,
-                    width: MediaQuery.of(context).size.width - 150,
-                    decoration: BoxDecoration(
-                      // boxShadow: [BoxShadow(color: Colors.grey, spreadRadius: 1)],
-                      color: Colors.white,
+  //         return Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //           children: <Widget>[
+  //             Column(
+  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //               children: <Widget>[_setNode()],
+  //             ),
+  //             Column(
+  //               children: <Widget>[
+  //                 Container(
+  //                   alignment: Alignment.centerLeft,
+  //                   padding: EdgeInsets.all(20),
+  //                   child: Text(
+  //                     '${stopListMap[index]}',
+  //                     style: TextStyle(
+  //                         color: Colors.black,
+  //                         fontSize: 15,
+  //                         fontWeight: FontWeight.w500),
+  //                   ),
+  //                   height: 75,
+  //                   width: MediaQuery.of(context).size.width - 150,
+  //                   decoration: BoxDecoration(
+  //                     // boxShadow: [BoxShadow(color: Colors.grey, spreadRadius: 1)],
+  //                     color: Colors.white,
 
-                      borderRadius: BorderRadius.circular(12.0),
-                      // shape: BoxShape.rectangle,
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.all(5),
-                    width: 50,
-                    height: 75,
-                    // color: Colors.white,
-                    child: Text(
-                      '${dateFormatter.format(now.add(Duration(minutes: 5 * index)))}',
-                      // textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                      // boxShadow: [
-                      //   BoxShadow(color: Colors.grey, spreadRadius: 1)
-                      // ]
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          );
-        },
-      ),
-    );
-  }
+  //                     borderRadius: BorderRadius.circular(12.0),
+  //                     // shape: BoxShape.rectangle,
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //             Column(
+  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //               children: <Widget>[
+  //                 Container(
+  //                   alignment: Alignment.center,
+  //                   padding: EdgeInsets.all(5),
+  //                   width: 50,
+  //                   height: 75,
+  //                   // color: Colors.white,
+  //                   child: Text(
+  //                     '${dateFormatter.format(now.add(Duration(minutes: 5 * index)))}',
+  //                     // textAlign: TextAlign.center,
+  //                     style: TextStyle(
+  //                       color: Colors.black,
+  //                       fontSize: 14,
+  //                       fontWeight: FontWeight.w500,
+  //                     ),
+  //                   ),
+  //                   decoration: BoxDecoration(
+  //                     borderRadius: BorderRadius.circular(10),
+  //                     color: Colors.white,
+  //                     // boxShadow: [
+  //                     //   BoxShadow(color: Colors.grey, spreadRadius: 1)
+  //                     // ]
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ],
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 
   //  Future<void> _goToTheLake() async {
   //   final GoogleMapController controller = mapController;
