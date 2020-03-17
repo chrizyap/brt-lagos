@@ -148,7 +148,6 @@ class _MyAppState extends State<MyHomePage>
 
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Montserrat'),
-      debugShowCheckedModeBanner: true,
       home: Scaffold(
         key: _scaffoldKey,
         // backgroundColor: Colors.black,
@@ -170,13 +169,126 @@ class _MyAppState extends State<MyHomePage>
               polylines: Set<Polyline>.of(polylines.values),
               onCameraMove: _onCameraMove,
             ),
+            Positioned(
+              top: 50.6,
+              right: 40.0,
+              left: 40.0,
+              child: FadeAnimation(
+                  1.35,
+                  Container(
+                    height: 50.0,
+                    width: 397.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(15),
+                          topLeft: Radius.circular(15)),
+                      color: Colors.white,
+                    ),
+                    child: TextField(
+                      controller: going,
+                      onTap: () async {
+                        dynamic result = await showSearch(
+                            context: context, delegate: DataSearch());
+                        going.text = result;
+                        print('Where from: ${going.text}');
+                        if (_fromMarker == null) {
+                          whereFromSelected();
+                        } else if (_fromMarker != null &&
+                            _toMarker != null &&
+                            BusStops.busStopMap[result] != coming.text) {
+                          whereFromSelected();
+                          _createRoute();
+                        } else if (_fromMarker == _toMarker) {
+                          _showSnackBar();
+                          print('Snack bar displayed');
+                        }
+                      },
+                      cursorColor: Colors.black,
+                      decoration: InputDecoration(
+                        icon: Container(
+                          margin: EdgeInsets.only(left: 20, top: 0),
+                          width: 10,
+                          height: 10,
+                          child: Icon(
+                            Icons.location_on,
+                            color: Colors.blue[900],
+                          ),
+                        ),
+                        hintText: ("Where from?"),
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.only(left: 15.0, top: 10.0),
+                      ),
+                    ),
+                  )),
+            ),
+            Positioned(
+              top: 100.0,
+              right: 40.0,
+              left: 40.0,
+              child: FadeAnimation(
+                  1.35,
+                  Container(
+                    height: 50.0,
+                    width: 397.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(15),
+                          bottomLeft: Radius.circular(15)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey,
+                            offset: Offset(0.0, 7.0),
+                            blurRadius: 10,
+                            spreadRadius: 1)
+                      ],
+                      color: Colors.white,
+                    ),
+                    child: TextField(
+                      enabled: _fromMarker != null,
+                      controller: coming,
+                      cursorColor: Colors.black,
+                      textInputAction: TextInputAction.go,
+                      onSubmitted: (query) {},
+                      onTap: () async {
+                        dynamic result = await showSearch(
+                            context: context, delegate: DataSearch());
+                        coming.text = going.text != result ? result : '';
+                        print('Where to: ${coming.text}');
+
+                        if (_fromMarker != null &&
+                            BusStops.busStopMap[result] !=
+                                _fromMarker.position) {
+                          whereToSelected();
+                          _createRoute();
+                        } else {
+                          _showSnackBar();
+                          print("Snackbar Displayed");
+                        }
+                      },
+                      decoration: InputDecoration(
+                        icon: Container(
+                          margin: EdgeInsets.only(left: 20, top: 0),
+                          width: 10,
+                          height: 10,
+                          child: Icon(
+                            MdiIcons.busSide,
+                            color: Colors.blue[900],
+                          ),
+                        ),
+                        hintText: "Where to?",
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.only(left: 15.0, top: 10.0),
+                      ),
+                    ),
+                  )),
+            ),
             SlideTransition(
               position: _tween.animate(_controller),
               child: DraggableScrollableSheet(
                   // expand: true,
                   initialChildSize: 0.35,
                   minChildSize: 0.25,
-                  maxChildSize: 0.8,
+                  maxChildSize: 1,
                   builder: (BuildContext context,
                       ScrollController scrollcontroller) {
                     return Container(
@@ -515,7 +627,9 @@ class _MyAppState extends State<MyHomePage>
                                         SizedBox(
                                           height: 10,
                                         ),
-                                        Divider(color: Colors.grey)
+                                        Divider(
+                                            color: Colors.grey[400],
+                                            thickness: 0.5)
                                       ],
                                     );
                                   } else {
@@ -608,119 +722,6 @@ class _MyAppState extends State<MyHomePage>
                     );
                   }),
             ),
-            Positioned(
-              top: 50.6,
-              right: 40.0,
-              left: 40.0,
-              child: FadeAnimation(
-                  1.35,
-                  Container(
-                    height: 50.0,
-                    width: 397.0,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(15),
-                          topLeft: Radius.circular(15)),
-                      color: Colors.white,
-                    ),
-                    child: TextField(
-                      controller: going,
-                      onTap: () async {
-                        dynamic result = await showSearch(
-                            context: context, delegate: DataSearch());
-                        going.text = result;
-                        print('Where from: ${going.text}');
-                        if (_fromMarker == null) {
-                          whereFromSelected();
-                        } else if (_fromMarker != null &&
-                            _toMarker != null &&
-                            BusStops.busStopMap[result] != coming.text) {
-                          whereFromSelected();
-                          _createRoute();
-                        } else if (_fromMarker == _toMarker) {
-                          _showSnackBar();
-                          print('Snack bar displayed');
-                        }
-                      },
-                      cursorColor: Colors.black,
-                      decoration: InputDecoration(
-                        icon: Container(
-                          margin: EdgeInsets.only(left: 20, top: 0),
-                          width: 10,
-                          height: 10,
-                          child: Icon(
-                            Icons.location_on,
-                            color: Colors.blue[900],
-                          ),
-                        ),
-                        hintText: ("Where from?"),
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.only(left: 15.0, top: 10.0),
-                      ),
-                    ),
-                  )),
-            ),
-            Positioned(
-              top: 100.0,
-              right: 40.0,
-              left: 40.0,
-              child: FadeAnimation(
-                  1.35,
-                  Container(
-                    height: 50.0,
-                    width: 397.0,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(15),
-                          bottomLeft: Radius.circular(15)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey,
-                            offset: Offset(0.0, 7.0),
-                            blurRadius: 10,
-                            spreadRadius: 1)
-                      ],
-                      color: Colors.white,
-                    ),
-                    child: TextField(
-                      enabled: _fromMarker != null,
-                      controller: coming,
-                      cursorColor: Colors.black,
-                      textInputAction: TextInputAction.go,
-                      onSubmitted: (query) {},
-                      onTap: () async {
-                        dynamic result = await showSearch(
-                            context: context, delegate: DataSearch());
-                        coming.text = going.text != result ? result : '';
-                        print('Where to: ${coming.text}');
-
-                        if (_fromMarker != null &&
-                            BusStops.busStopMap[result] !=
-                                _fromMarker.position) {
-                          whereToSelected();
-                          _createRoute();
-                        } else {
-                          _showSnackBar();
-                          print("Snackbar Displayed");
-                        }
-                      },
-                      decoration: InputDecoration(
-                        icon: Container(
-                          margin: EdgeInsets.only(left: 20, top: 0),
-                          width: 10,
-                          height: 10,
-                          child: Icon(
-                            MdiIcons.busSide,
-                            color: Colors.blue[900],
-                          ),
-                        ),
-                        hintText: "Where to?",
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.only(left: 15.0, top: 10.0),
-                      ),
-                    ),
-                  )),
-            ),
           ],
         ),
       ),
@@ -776,9 +777,19 @@ class _MyAppState extends State<MyHomePage>
     _cardStates = CardStates.halfVisible;
     print('stopList: First  ${stopLists.first}');
     print('stopList: Last  ${stopLists.last}');
+
+    // if (_fromMarker != null && _toMarker != null){
+
+    // }
     if (_controller.isDismissed) {
       _controller.forward();
-    } else if (_controller.isCompleted) {
+      print(_controller.status);
+    } else if (_controller.isCompleted &&
+        _fromMarker != null &&
+        _toMarker != null) {
+      _controller.forward();
+      print(_controller.status);
+    } else {
       _controller.reverse();
     }
   }
