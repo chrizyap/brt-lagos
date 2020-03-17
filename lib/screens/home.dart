@@ -48,15 +48,8 @@ class _MyAppState extends State<MyHomePage>
     );
     // Display snackbar.
     _scaffoldKey.currentState.showSnackBar(snackBar);
-    if ([CardStates.fullVisible, CardStates.halfVisible]
-        .contains(_cardStates)) {
-      setState(() {
-        _cardStates = CardStates.hidden;
-      });
-    }
   }
 
-  CardStates _cardStates = CardStates.hidden;
   List stopLists = [];
 
   var going = TextEditingController();
@@ -774,7 +767,7 @@ class _MyAppState extends State<MyHomePage>
     calculateDistanceKM();
     calculateDistance();
     noOfStops();
-    _cardStates = CardStates.halfVisible;
+
     print('stopList: First  ${stopLists.first}');
     print('stopList: Last  ${stopLists.last}');
 
@@ -1024,5 +1017,3 @@ class _MyAppState extends State<MyHomePage>
 //     print("BannerAd event is $event");
 //   },
 // );
-
-enum CardStates { hidden, halfVisible, fullVisible }
