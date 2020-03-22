@@ -764,6 +764,7 @@ class _MyAppState extends State<MyHomePage>
     polylineCoordinates.clear();
     polylines.clear();
     _getPolyline();
+    _addPolyLine();
     calculateDistanceKM();
     calculateDistance();
     noOfStops();
@@ -771,9 +772,6 @@ class _MyAppState extends State<MyHomePage>
     print('stopList: First  ${stopLists.first}');
     print('stopList: Last  ${stopLists.last}');
 
-    // if (_fromMarker != null && _toMarker != null){
-
-    // }
     if (_controller.isDismissed) {
       _controller.forward();
       print(_controller.status);
@@ -791,7 +789,7 @@ class _MyAppState extends State<MyHomePage>
     PolylineId id = PolylineId("poly");
     Polyline polyline = Polyline(
       polylineId: id,
-      color: Colors.blue,
+      color: Colors.blue[600],
       width: 4,
       points: polylineCoordinates,
     );
@@ -809,8 +807,6 @@ class _MyAppState extends State<MyHomePage>
       result1.forEach((PointLatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
-
-      _addPolyLine();
     }
   }
 
@@ -858,142 +854,6 @@ class _MyAppState extends State<MyHomePage>
       stopLists.add(BusStops.busStopIndex.keys.toList()[i - 1]);
     }
   }
-
-  // Widget buildListView() {
-  //   Map stopListMap = stopLists.asMap();
-  //   return Container(
-  //     child: ListView.builder(
-  //       shrinkWrap: true,
-  //       scrollDirection: Axis.vertical,
-  //       itemCount: stopListMap.length,
-  //       itemBuilder: (BuildContext context, int index) {
-  //         Widget _setNode() {
-  //           if (stopListMap[index] == stopListMap.values.first) {
-  //             return Container(
-  //               alignment: Alignment.center,
-  //               padding: EdgeInsets.all(5),
-  //               width: 40,
-  //               height: 40,
-  //               decoration: BoxDecoration(
-  //                 shape: BoxShape.circle,
-  //                 gradient: LinearGradient(
-  //                     begin: Alignment.bottomCenter,
-  //                     end: Alignment.topLeft,
-  //                     colors: [
-  //                       primaryBlue,
-  //                       secondaryBlue,
-  //                     ]),
-  //               ),
-  //             );
-  //           } else if (stopListMap[index] == stopListMap.values.last) {
-  //             return Container(
-  //               alignment: Alignment.center,
-  //               padding: EdgeInsets.all(5),
-  //               width: 40,
-  //               height: 40,
-  //               decoration: BoxDecoration(
-  //                 shape: BoxShape.circle,
-  //                 gradient: LinearGradient(
-  //                     begin: Alignment.bottomCenter,
-  //                     end: Alignment.topLeft,
-  //                     colors: [
-  //                       primaryBlue,
-  //                       secondaryBlue,
-  //                     ]),
-  //               ),
-  //             );
-  //           } else {
-  //             return Container(
-  //               alignment: Alignment.center,
-  //               padding: EdgeInsets.all(5),
-  //               width: 25,
-  //               height: 25,
-  //               decoration: BoxDecoration(
-  //                   shape: BoxShape.circle,
-  //                   boxShadow: [
-  //                     BoxShadow(
-  //                         color: secondaryBlue,
-  //                         spreadRadius: 0.5,
-  //                         offset: Offset(0.5, 1.0))
-  //                   ],
-  //                   color: secondaryBlue),
-  //             );
-  //           }
-  //         }
-
-  //         return Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //           children: <Widget>[
-  //             Column(
-  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //               children: <Widget>[_setNode()],
-  //             ),
-  //             Column(
-  //               children: <Widget>[
-  //                 Container(
-  //                   alignment: Alignment.centerLeft,
-  //                   padding: EdgeInsets.all(20),
-  //                   child: Text(
-  //                     '${stopListMap[index]}',
-  //                     style: TextStyle(
-  //                         color: Colors.black,
-  //                         fontSize: 15,
-  //                         fontWeight: FontWeight.w500),
-  //                   ),
-  //                   height: 75,
-  //                   width: MediaQuery.of(context).size.width - 150,
-  //                   decoration: BoxDecoration(
-  //                     // boxShadow: [BoxShadow(color: Colors.grey, spreadRadius: 1)],
-  //                     color: Colors.white,
-
-  //                     borderRadius: BorderRadius.circular(12.0),
-  //                     // shape: BoxShape.rectangle,
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //             Column(
-  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //               children: <Widget>[
-  //                 Container(
-  //                   alignment: Alignment.center,
-  //                   padding: EdgeInsets.all(5),
-  //                   width: 50,
-  //                   height: 75,
-  //                   // color: Colors.white,
-  //                   child: Text(
-  //                     '${dateFormatter.format(now.add(Duration(minutes: 5 * index)))}',
-  //                     // textAlign: TextAlign.center,
-  //                     style: TextStyle(
-  //                       color: Colors.black,
-  //                       fontSize: 14,
-  //                       fontWeight: FontWeight.w500,
-  //                     ),
-  //                   ),
-  //                   decoration: BoxDecoration(
-  //                     borderRadius: BorderRadius.circular(10),
-  //                     color: Colors.white,
-  //                     // boxShadow: [
-  //                     //   BoxShadow(color: Colors.grey, spreadRadius: 1)
-  //                     // ]
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           ],
-  //         );
-  //       },
-  //     ),
-  //   );
-  // }
-
-  //  Future<void> _goToTheLake() async {
-  //   final GoogleMapController controller = mapController;
-  //   controller.animateCamera(CameraUpdate.newCameraPosition
-  //   (CameraPosition(target: _toMarker.position, zoom: 11
-  //    ),
-  //   ),
-  //   }
 }
 
 // MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
