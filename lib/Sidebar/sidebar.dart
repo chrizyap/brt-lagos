@@ -1,9 +1,10 @@
+import 'package:brtbus/bloc_navigation_bloc/navigation_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:brtbus/Components/themes.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rxdart/rxdart.dart';
 import 'menu_item.dart';
 import 'dart:async';
-
-import 'package:rxdart/rxdart.dart';
 
 class SideBar extends StatefulWidget {
   @override
@@ -12,11 +13,11 @@ class SideBar extends StatefulWidget {
 
 class _SideBarState extends State<SideBar>
     with SingleTickerProviderStateMixin<SideBar> {
+  AnimationController _animationController;
   StreamController<bool> isSidebarOpenedStreamController;
   Stream<bool> isSidebarOpenedStream;
   StreamSink<bool> isSidebarOpenedSink;
-  AnimationController _animationController;
-  // final bool isSliderOpen = false;
+
   final _animationDuration = const Duration(milliseconds: 500);
 
   @override
@@ -62,10 +63,12 @@ class _SideBarState extends State<SideBar>
           top: 0,
           bottom: 0,
           left: isSideBarOpenedAsync.data ? 0 : -screenwidth,
-          right: isSideBarOpenedAsync.data ? 0 : screenwidth - 45,
+          right:
+              isSideBarOpenedAsync.data ? screenwidth / 2.6 : screenwidth - 45,
           child: Row(children: <Widget>[
             Expanded(
               child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 color: primaryBlue,
                 child: Column(
                   children: <Widget>[
@@ -75,8 +78,8 @@ class _SideBarState extends State<SideBar>
                       title: "Map",
                       onTap: () {
                         _onIconTapped();
-                        // BlocProvider.of<NavigationBloc>(context)
-                        //     .add(NavigationEvents.HomePageClickedEvent);
+                        BlocProvider.of<NavigationBloc>(context)
+                            .add(NavigationEvents.HomePageClickedEvent);
                       },
                     ),
                     MenuItem(
@@ -85,8 +88,8 @@ class _SideBarState extends State<SideBar>
                       onTap: () {
                         _onIconTapped();
 
-                        // BlocProvider.of<NavigationBloc>(context)
-                        //     .add(NavigationEvents.MyAccountClickedEvent);
+                        BlocProvider.of<NavigationBloc>(context)
+                            .add(NavigationEvents.RoutesPageClickedEvent);
                       },
                     ),
                     MenuItem(
@@ -94,8 +97,8 @@ class _SideBarState extends State<SideBar>
                       title: "News",
                       onTap: () {
                         _onIconTapped();
-                        // BlocProvider.of<NavigationBloc>(context)
-                        //     .add(NavigationEvents.MyOrdersClickedEvent);
+                        BlocProvider.of<NavigationBloc>(context)
+                            .add(NavigationEvents.NewsPageClickedEvent);
                       },
                     ),
                     // MenuItem(
@@ -106,8 +109,8 @@ class _SideBarState extends State<SideBar>
                       height: 64,
                       thickness: 0.5,
                       color: Colors.white,
-                      indent: 32,
-                      endIndent: 32,
+                      indent: 20,
+                      endIndent: 20,
                     ),
                     MenuItem(
                       icon: Icons.settings,
@@ -116,6 +119,11 @@ class _SideBarState extends State<SideBar>
                     MenuItem(
                       icon: Icons.info,
                       title: "About",
+                      onTap: () {
+                        _onIconTapped();
+                        BlocProvider.of<NavigationBloc>(context)
+                            .add(NavigationEvents.AboutPageClickedEvent);
+                      },
                     ),
                   ],
                 ),
@@ -130,15 +138,15 @@ class _SideBarState extends State<SideBar>
                 child: ClipPath(
                   clipper: CustomMenuClipper(),
                   child: Container(
-                    alignment: Alignment.center,
+                    alignment: Alignment.centerLeft,
                     width: 40,
                     height: 100,
                     color: primaryBlue,
                     child: AnimatedIcon(
                       progress: _animationController.view,
                       icon: AnimatedIcons.menu_close,
-                      color: secondaryBlue,
-                      size: 35,
+                      color: Colors.white,
+                      size: 30,
                     ),
                   ),
                 ),

@@ -1,3 +1,5 @@
+import 'package:brtbus/Pages/sidebar_layout.dart';
+import 'package:brtbus/bloc_navigation_bloc/navigation_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'Pages/home.dart';
@@ -17,8 +19,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MyHomePage(),
-      debugShowCheckedModeBanner: true,
+      home: SideBarLayout(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
