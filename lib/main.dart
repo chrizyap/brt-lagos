@@ -1,8 +1,5 @@
-import 'package:brtbus/Pages/sidebar_layout.dart';
-import 'package:brtbus/bloc_navigation_bloc/navigation_bloc.dart';
+import 'package:brtbus/Components/Sidebar/sidebar_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'Pages/home.dart';
 
 void main() {
   runApp(new MyApp());

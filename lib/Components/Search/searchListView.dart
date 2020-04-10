@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 //DataSearch is an extension of search
 class DataSearch extends SearchDelegate {
-  String value = "";
-
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -21,23 +19,47 @@ class DataSearch extends SearchDelegate {
     return IconButton(
       icon: Icon(Icons.arrow_back),
       onPressed: () {
-        close(context, query);
+        close(context, null);
       },
     );
   }
 
   @override
   Widget buildResults(BuildContext context) {
-    value = (query);
+    print(query);
 
-    Navigator.pop(context);
+    final suggestionList = query.isEmpty
+        ? recentBusStops
+        : busstops.where((p) => p.toLowerCase().startsWith(query)).toList();
 
-    print('context:::popped');
-    return Text(value);
+    //Navigator.pop(context);
+    return ListView.builder(
+      itemBuilder: (context, index) => ListTile(
+        onTap: () {
+          // showResults(context);
+          close(context, suggestionList[index]);
+        },
+        leading: Icon(Icons.directions_bus),
+        title: RichText(
+          text: TextSpan(
+              text: suggestionList[index].substring(0, query.length),
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              children: [
+                TextSpan(
+                    text: suggestionList[index].substring(query.length),
+                    style: TextStyle(color: Colors.grey)),
+              ]),
+        ),
+      ),
+      itemCount: suggestionList.length,
+    );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    //return Container();
+
     final suggestionList = query.isEmpty
         ? recentBusStops
         : busstops.where((p) => p.toLowerCase().startsWith(query)).toList();
@@ -45,7 +67,9 @@ class DataSearch extends SearchDelegate {
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
         onTap: () {
+          query = suggestionList[index];
           showResults(context);
+          close(context, suggestionList[index]);
         },
         leading: Icon(Icons.directions_bus),
         title: RichText(
@@ -73,7 +97,7 @@ final busstops = [
   "Iponri",
   "Stadium",
   "Barracks",
-  "moshalashiTerminal",
+  "Moshalashi Terminal",
   "Fadeyi",
   "Onipanu",
   "Palmgrove",
@@ -100,7 +124,4 @@ final recentBusStops = [
   "Onipanu",
   "Palmgrove",
   "Obanikoro",
-  "TBS Terminal"
 ];
-
-//noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);

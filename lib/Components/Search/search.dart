@@ -11,6 +11,7 @@ class DataSearch extends SearchDelegate {
         icon: Icon(Icons.clear),
         onPressed: () {
           query = '';
+          
         },
       ),
     ];
@@ -18,10 +19,16 @@ class DataSearch extends SearchDelegate {
 
   @override
   Widget buildLeading(BuildContext context) {
+    TextField(
+        //controller: searchController,
+        );
+
     return IconButton(
       icon: Icon(Icons.arrow_back),
       onPressed: () {
         close(context, query);
+
+         
       },
     );
   }
@@ -31,13 +38,14 @@ class DataSearch extends SearchDelegate {
     value = (query);
 
     Navigator.pop(context);
-
     print('context:::popped');
     return Text(value);
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    //return Container();
+
     final suggestionList = query.isEmpty
         ? recentBusStops
         : busstops.where((p) => p.toLowerCase().startsWith(query)).toList();
