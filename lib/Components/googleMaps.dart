@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:brtbus/Components/polylines.dart';
 import 'package:latlong/latlong.dart' as A;
@@ -18,6 +19,15 @@ class GoogleMaps extends StatelessWidget {
 
   void _onMapCreated(GoogleMapController controller) async {
     mapController = controller;
+  }
+
+  //GET THE USERS LOCATION
+  void getCurrentLocation() async {
+    print("GET USER METHOD RUNNING =========");
+    Position position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    print(
+        "the longitude is: ${position.longitude} and the latitude is: ${position.latitude} ");
   }
 
   @override

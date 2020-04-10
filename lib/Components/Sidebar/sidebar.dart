@@ -112,10 +112,10 @@ class _SideBarState extends State<SideBar>
                       indent: 20,
                       endIndent: 20,
                     ),
-                    MenuItem(
-                      icon: Icons.settings,
-                      title: "Settings",
-                    ),
+                    // MenuItem(
+                    //   icon: Icons.settings,
+                    //   title: "Settings",
+                    // ),
                     MenuItem(
                       icon: Icons.info,
                       title: "About",
