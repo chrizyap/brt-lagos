@@ -60,17 +60,11 @@ class Polylines {
 
   static void createRoute() {
     polylineCoordinates.clear();
-    polylines.clear();
-    _getPolyline();
-    _addPolyLine();
+    getPolyline();
+    addPolyLine();
     calculateDistanceKM();
     calculateDistance();
-
-    ///COME BACK TO THIS
     Details.noOfStops();
-
-    // print('stopList: First  ${stopLists.first}');
-    // print('stopList: Last  ${stopLists.last}');
 
     if (SearchWidget.controller.isDismissed) {
       SearchWidget.controller.forward();
@@ -85,7 +79,7 @@ class Polylines {
     }
   }
 
-  static _addPolyLine() {
+  static addPolyLine() {
     PolylineId id = PolylineId("poly");
     Polyline polyline = Polyline(
       polylineId: id,
@@ -94,9 +88,11 @@ class Polylines {
       points: polylineCoordinates,
     );
     polylines[id] = polyline;
+    polylines.addAll(polylines);
+    print('Polyline Added');
   }
 
-  static _getPolyline() async {
+  static getPolyline() async {
     List<PointLatLng> result1 = await polylinePoints.getRouteBetweenCoordinates(
         googleAPiKey,
         fromMarker.position.latitude,
