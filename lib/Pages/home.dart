@@ -34,8 +34,4 @@ class _MyAppState extends State<MyHomePage>
       ),
     );
   }
-
-  ///Belongs with the Slide Trabsition Widget
-  ///
-
 }
