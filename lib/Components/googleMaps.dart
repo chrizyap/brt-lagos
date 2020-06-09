@@ -32,8 +32,8 @@ class GoogleMaps extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: GoogleMap(
+    return Stack(children: <Widget>[
+      GoogleMap(
         onMapCreated: _onMapCreated,
         myLocationEnabled: true,
         myLocationButtonEnabled: false,
@@ -47,6 +47,6 @@ class GoogleMaps extends StatelessWidget {
         polylines: Set<Polyline>.of(Polylines.polylines.values),
         onCameraMove: _onCameraMove,
       ),
-    );
+    ]);
   }
 }
