@@ -30,13 +30,6 @@ class _MyAppState extends State<MyHomePage>
           SearchWidget(),
           SideBar(),
           TripDetails(),
-          Center(
-            child: Container(
-              color: Colors.red,
-              height: 20,
-              width: 10,
-            ),
-          ),
         ],
       ),
     );
