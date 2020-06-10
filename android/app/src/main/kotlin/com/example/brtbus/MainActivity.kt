@@ -1,4 +1,4 @@
-package com.example.brtbus
+package com.digiscript.brtbus
 
 import android.os.Bundle
 

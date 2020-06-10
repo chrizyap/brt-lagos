@@ -89,6 +89,12 @@ PODS:
   - permission (0.0.1):
     - Flutter
   - Reachability (3.2)
+  - url_launcher (0.0.1):
+    - Flutter
+  - url_launcher_macos (0.0.1):
+    - Flutter
+  - url_launcher_web (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - connectivity (from `.symlinks/plugins/connectivity/ios`)
@@ -102,6 +108,9 @@ DEPENDENCIES:
   - GooglePlaces
   - location_permissions (from `.symlinks/plugins/location_permissions/ios`)
   - permission (from `.symlinks/plugins/permission/ios`)
+  - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
+  - url_launcher_macos (from `.symlinks/plugins/url_launcher_macos/ios`)
+  - url_launcher_web (from `.symlinks/plugins/url_launcher_web/ios`)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -137,6 +146,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/location_permissions/ios"
   permission:
     :path: ".symlinks/plugins/permission/ios"
+  url_launcher:
+    :path: ".symlinks/plugins/url_launcher/ios"
+  url_launcher_macos:
+    :path: ".symlinks/plugins/url_launcher_macos/ios"
+  url_launcher_web:
+    :path: ".symlinks/plugins/url_launcher_web/ios"
 
 SPEC CHECKSUMS:
   connectivity: 6e94255659cc86dcbef1d452ad3e0491bb1b3e75
@@ -161,6 +176,9 @@ SPEC CHECKSUMS:
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   permission: 51e2d3a8ef3490da0537667d7f1a6a1c5ba8ec47
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
+  url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
+  url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
+  url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c
 
 PODFILE CHECKSUM: 313d11b8b4f7007708642c1e1913a2a9856b0743
 
