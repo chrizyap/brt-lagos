@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:brtbus/bloc_navigation_bloc/navigation_bloc.dart';
-import 'package:brtbus/Pages/newsListTile.dart';
+import 'package:brtbus/Pages/news/newsListTile.dart';
 
 class NewsPage extends StatelessWidget with NavigationStates {
   @override

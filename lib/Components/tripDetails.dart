@@ -1,5 +1,5 @@
-import 'package:brtbus/Components/Search/searchWidget.dart';
-import 'package:brtbus/Components/polylines.dart';
+import 'package:brtbus/Pages/map/searchWidget.dart';
+import 'package:brtbus/Pages/map/polylines.dart';
 import 'package:brtbus/Components/busStops.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

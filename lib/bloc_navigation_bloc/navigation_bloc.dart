@@ -1,9 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:brtbus/Pages/news.dart';
-import 'package:brtbus/Pages/routes.dart';
-import '../Pages/info.dart';
-import '../Pages/about.dart';
-import 'package:brtbus/Pages/home.dart';
+import 'package:brtbus/Pages/news/news.dart';
+import 'package:brtbus/Pages/routes/routes.dart';
+import 'package:brtbus/Pages/settings/about.dart';
+import 'package:brtbus/Pages/map/map.dart';
 
 enum NavigationEvents {
   HomePageClickedEvent,
@@ -28,9 +27,7 @@ class NavigationBloc extends Bloc<NavigationEvents, NavigationStates> {
       case NavigationEvents.AboutPageClickedEvent:
         yield AboutPage();
         break;
-      case NavigationEvents.InfoPageClickedEvent:
-        yield InfoPage();
-        break;
+
       case NavigationEvents.RoutesPageClickedEvent:
         yield RoutesPage();
         break;

@@ -1,16 +1,16 @@
 import 'package:brtbus/Components/busStops.dart';
-import 'package:brtbus/Components/polylines.dart';
+import 'package:brtbus/Pages/map/polylines.dart';
 import 'package:flutter/material.dart';
 import 'package:brtbus/Animation/FadeAnimation.dart';
-import 'package:brtbus/Components/searchListView.dart';
+import 'package:brtbus/Pages/map/searchListView.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:brtbus/Components/googleMaps.dart';
+import 'package:brtbus/Pages/map/googleMaps.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 // import 'search.dart';
-import 'package:brtbus/Pages/home.dart';
+import 'package:brtbus/Pages/map/map.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
-final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+// final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
 class Texts {
   static var going = TextEditingController();
@@ -43,6 +43,7 @@ class SearchWidget extends StatelessWidget {
                     child: TextField(
                       controller: Texts.going,
                       onTap: () async {
+                        FocusScope.of(context).requestFocus(new FocusNode());
                         dynamic result = await showSearch(
                             context: context, delegate: DataSearch());
                         Texts.going.text = result;
@@ -101,6 +102,7 @@ class SearchWidget extends StatelessWidget {
                       textInputAction: TextInputAction.go,
                       onSubmitted: (query) {},
                       onTap: () async {
+                        FocusScope.of(context).requestFocus(new FocusNode());
                         dynamic result = await showSearch(
                             context: context, delegate: DataSearch());
                         Texts.coming.text =
@@ -153,5 +155,5 @@ _showSnackBar() {
     ),
   );
   // Display snackbar.
-  _scaffoldKey.currentState.showSnackBar(snackBar);
+  return snackBar;
 }

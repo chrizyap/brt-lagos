@@ -1,6 +1,8 @@
-import 'package:brtbus/Components/Search/searchWidget.dart';
+import 'dart:async';
+
+import 'package:brtbus/Pages/map/searchWidget.dart';
 import 'package:brtbus/Components/busStops.dart';
-import 'package:brtbus/Pages/home.dart';
+import 'package:brtbus/Pages/map/map.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:latlong/latlong.dart' as A;
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -17,6 +19,15 @@ final A.Distance distance = new A.Distance();
 Map timeTo = {'hours': 5, 'minutes': 30};
 
 class Polylines {
+  static StreamController<bool> createRouteStreamController =
+      StreamController<bool>.broadcast();
+
+  static StreamController<bool> addFromMarkerStreamController =
+      StreamController<bool>.broadcast();
+
+  static StreamController<bool> addToMarkerStreamController =
+      StreamController<bool>.broadcast();
+
   static Set<Marker> markers = {};
   static Marker toMarker;
   static Marker fromMarker;
@@ -24,38 +35,32 @@ class Polylines {
   static String googleAPiKey = "AIzaSyAVTGrgDL3-VpSWaEjdvgHDJxc_ffzWGmE";
 
   static void whereFromSelected() {
-    if (Texts.going.text != null) {
-      markers.remove(Polylines.fromMarker);
-      polylines.clear();
-      Marker newMarker = Marker(
-          markerId: MarkerId(
-            ('${Texts.going.text}'),
-          ),
-          position: BusStops.busStopMap[Texts.going.text],
-          infoWindow: InfoWindow(title: ('${Texts.going.text}')),
-          icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue));
-      Polylines.fromMarker = newMarker;
-      markers.add(Polylines.fromMarker);
-    }
+    markers.remove(Polylines.fromMarker);
+    polylines.clear();
+    Marker newMarker = Marker(
+        markerId: MarkerId(
+          ('${Texts.going.text}'),
+        ),
+        position: BusStops.busStopMap[Texts.going.text],
+        infoWindow: InfoWindow(title: ('${Texts.going.text}')),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue));
+    Polylines.fromMarker = newMarker;
+    markers.add(Polylines.fromMarker);
   }
 
   static void whereToSelected() {
-    if (Texts.coming.text != null) {
-      markers.remove(Polylines.toMarker);
-      Marker newMarker = Marker(
-          markerId: MarkerId(
-            ('${Texts.coming.text}'),
-          ),
-          position: BusStops.busStopMap[Texts.coming.text],
-          infoWindow: InfoWindow(
-            title: ('${Texts.coming.text}'),
-          ),
-          icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue));
-      Polylines.toMarker = newMarker;
-      markers.add(newMarker);
-    }
+    markers.remove(Polylines.toMarker);
+    Marker newMarker = Marker(
+        markerId: MarkerId(
+          ('${Texts.coming.text}'),
+        ),
+        position: BusStops.busStopMap[Texts.coming.text],
+        infoWindow: InfoWindow(
+          title: ('${Texts.coming.text}'),
+        ),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue));
+    Polylines.toMarker = newMarker;
+    markers.add(newMarker);
   }
 
   static void createRoute() {

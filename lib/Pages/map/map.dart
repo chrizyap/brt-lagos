@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:brtbus/Components/Search/searchWidget.dart';
+import 'package:brtbus/Pages/map/searchWidget.dart';
 import 'package:brtbus/Components/Sidebar/sidebar.dart';
 import 'package:brtbus/bloc_navigation_bloc/navigation_bloc.dart';
-import 'package:brtbus/Components/googleMaps.dart';
+import 'package:brtbus/Pages/map/googleMaps.dart';
 import 'package:brtbus/Components/tripDetails.dart';
 
 class MyHomePage extends StatefulWidget with NavigationStates {

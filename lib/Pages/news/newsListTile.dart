@@ -1,4 +1,4 @@
-import 'package:brtbus/Components/hyperlink.dart';
+import 'package:brtbus/Components/brttap.dart';
 import 'package:flutter/material.dart';
 
 class NewsListTile extends StatelessWidget {
