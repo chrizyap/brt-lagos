@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:brtbus/Pages/map/googleMaps.dart';
 import 'package:brtbus/Pages/map/searchWidget.dart';
 import 'package:brtbus/Components/busStops.dart';
 import 'package:brtbus/Pages/map/map.dart';
@@ -66,7 +66,9 @@ class Polylines {
   static void createRoute() {
     polylineCoordinates.clear();
     getPolyline();
-    addPolyLine();
+    GoogleMaps.showButton();
+    ButtonStream.isVisible = true;
+
     calculateDistanceKM();
     calculateDistance();
     Details.noOfStops();
@@ -109,6 +111,7 @@ class Polylines {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
     }
+    addPolyLine();
   }
 
   static void calculateDistance() {

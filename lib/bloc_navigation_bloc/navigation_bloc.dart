@@ -8,7 +8,6 @@ enum NavigationEvents {
   HomePageClickedEvent,
   RoutesPageClickedEvent,
   NewsPageClickedEvent,
-  InfoPageClickedEvent,
   AboutPageClickedEvent,
 }
 

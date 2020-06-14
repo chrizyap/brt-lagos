@@ -32,6 +32,7 @@ dependencies:
   flutter_bloc: ^3.2.0
   url_launcher: ^5.4.10
   splashscreen: ^1.2.0
+  flutter_svg: ^0.17.4
 
   # firebase_admob: ^0.9.0+10
 
@@ -55,10 +56,9 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-  uses-material-design: true
   assets:
-    - images/digiscript-logo-small.png
-    - images/app-icon.png
+    - images/png/
+    - images/svg/
 
   fonts:
     - family: Montserrat
@@ -106,11 +106,7 @@ flutter:
         - asset: fonts/Montserrat-BlackItalic.ttf
         - weight: 900
         - style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
+
+  uses-material-design: true
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

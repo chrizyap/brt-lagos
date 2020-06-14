@@ -57,7 +57,7 @@ class AboutPage extends StatelessWidget with NavigationStates {
                   child: Center(
                       child: Column(
                     children: <Widget>[
-                      Image.asset('images/digiscript-logo-small.png',
+                      Image.asset('images/png/digiscript-logo-small.png',
                           scale: 1.5),
                       Text('Digiscript Technologies')
                     ],

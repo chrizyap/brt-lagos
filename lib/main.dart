@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
               secondaryBlue,
             ]),
         image: Image.asset(
-          'images/app-icon.png',
+          'images/png/app-icon.png',
         ),
         // title: Text(
         //   "BRT Lagos",

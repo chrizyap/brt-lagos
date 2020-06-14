@@ -1,3 +1,4 @@
+import 'package:brtbus/Components/brtButtonWidget.dart';
 import 'package:brtbus/Components/busStops.dart';
 import 'package:brtbus/Pages/map/polylines.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class SearchWidget extends StatelessWidget {
         alignment: Alignment.topCenter,
         child: Container(
           width: MediaQuery.of(context).size.width - 100,
-          padding: EdgeInsets.only(top: 150),
+          padding: EdgeInsets.only(top: 120),
           child: Column(
             children: <Widget>[
               FadeAnimation(
@@ -36,8 +37,8 @@ class SearchWidget extends StatelessWidget {
                     width: 397.0,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(15),
-                          topLeft: Radius.circular(15)),
+                          topRight: Radius.circular(4),
+                          topLeft: Radius.circular(4)),
                       color: Colors.white,
                     ),
                     child: TextField(
@@ -84,8 +85,8 @@ class SearchWidget extends StatelessWidget {
                     width: 397.0,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(15),
-                          bottomLeft: Radius.circular(15)),
+                          bottomRight: Radius.circular(4),
+                          bottomLeft: Radius.circular(4)),
                       boxShadow: [
                         BoxShadow(
                             color: Colors.grey,
