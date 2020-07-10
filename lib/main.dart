@@ -1,4 +1,5 @@
 import 'package:brtbus/Components/Sidebar/sidebar_layout.dart';
+import 'package:brtbus/Pages/splashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:splashscreen/splashscreen.dart';
 
@@ -20,29 +21,32 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Montserrat'),
-      home: SplashScreen(
-        seconds: 2,
-        navigateAfterSeconds: SideBarLayout(),
-        gradientBackground: LinearGradient(
-            begin: Alignment.bottomCenter,
-            end: Alignment.topLeft,
-            colors: [
-              primaryBlue,
-              secondaryBlue,
-            ]),
-        image: Image.asset(
-          'images/png/app-icon.png',
-        ),
-        // title: Text(
-        //   "BRT Lagos",
-        //   style: TextStyle(
-        //       color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
-        // ),
-        photoSize: 100,
-        loaderColor: Colors.transparent,
+      home: BentoSplashScreen(),
 
-        // loaderColor: Colors.white
-      ),
+      //  SplashScreen(
+      //   seconds: 2,
+      //   navigateAfterSeconds: SideBarLayout(),
+      //   gradientBackground: LinearGradient(
+      //       begin: Alignment.bottomCenter,
+      //       end: Alignment.topLeft,
+      //       colors: [
+      //         primaryBlue,
+      //         secondaryBlue,
+      //       ]),
+      //   image: Image.asset(
+      //     'images/png/app-icon.png',
+      //   ),
+      //   // title: Text(
+      //   //   "BRT Lagos",
+      //   //   style: TextStyle(
+      //   //       color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
+      //   // ),
+      //   photoSize: 100,
+      //   loaderColor: Colors.transparent,
+
+      //   // loaderColor: Colors.white
+      // ),
+
       debugShowCheckedModeBanner: false,
     );
   }

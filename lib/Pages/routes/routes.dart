@@ -128,6 +128,23 @@ class _RoutesPageState extends State<RoutesPage> {
                           ),
                         ],
                       ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Column(children: <Widget>[
+                            Container(
+                              height: 10,
+                              width: 10,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle, color: Colors.grey),
+                            ),
+                            SizedBox(height: 8),
+                            Text("CLEAR",
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 10))
+                          ])
+                        ],
+                      ),
                     ],
                   );
                 },

@@ -1,5 +1,6 @@
 import 'package:brtbus/Pages/map/searchWidget.dart';
 import 'package:brtbus/Pages/map/polylines.dart';
+import 'package:brtbus/Components/brttap.dart';
 import 'package:brtbus/Components/busStops.dart';
 import 'package:brtbus/Components/appBar.dart';
 import 'package:flutter/material.dart';
@@ -26,9 +27,7 @@ class TripDetails extends StatelessWidget {
             Container(
                 height: MediaQuery.of(context).size.height,
                 child: Column(children: <Widget>[
-                  AppBarYes(
-                    title: '',
-                  ),
+                  BackAppBar(),
                   Expanded(
                     child: ListView.builder(
                       shrinkWrap: true,
@@ -102,201 +101,210 @@ class TripDetails extends StatelessWidget {
                                     //Time
                                     Column(
                                       children: <Widget>[
-                                        Container(
-                                          padding: EdgeInsets.all(7),
-                                          child: Column(
-                                            children: <Widget>[
-                                              Text(
-                                                "Time",
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20.0,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                              Expanded(
-                                                  child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  timeTo['hours'] != 0
-                                                      ? Text(
-                                                          '${timeTo['hours']} hr',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 20),
-                                                        )
-                                                      : Container(),
-                                                  Text(
-                                                    '${timeTo['minutes']} min',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize:
-                                                            timeTo['hours'] != 0
-                                                                ? 20
-                                                                : 20),
-                                                  )
-                                                ],
-                                              )),
-                                            ],
+                                        BrtTap(
+                                          child: Container(
+                                            padding: EdgeInsets.all(7),
+                                            child: Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Time",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 20.0,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                                Expanded(
+                                                    child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    timeTo['hours'] != 0
+                                                        ? Text(
+                                                            '${timeTo['hours']} hr',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                fontSize: 20),
+                                                          )
+                                                        : Container(),
+                                                    Text(
+                                                      '${timeTo['minutes']} min',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize:
+                                                              timeTo['hours'] !=
+                                                                      0
+                                                                  ? 20
+                                                                  : 20),
+                                                    )
+                                                  ],
+                                                )),
+                                              ],
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15.0),
+                                              color: secondaryBlue,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.grey,
+                                                    spreadRadius: 2,
+                                                    blurRadius: 1.5,
+                                                    offset: Offset.zero),
+                                              ],
+                                              gradient: LinearGradient(
+                                                  begin: Alignment.bottomRight,
+                                                  end: Alignment.topLeft,
+                                                  colors: [
+                                                    primaryBlue,
+                                                    secondaryBlue,
+                                                    // Colors.white,
+                                                  ],
+                                                  stops: [
+                                                    0.4,
+                                                    1,
+                                                  ]),
+                                              // color: Colors.white,
+                                            ),
+                                            height: 90,
+                                            width: 90,
                                           ),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15.0),
-                                            color: secondaryBlue,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  color: Colors.grey,
-                                                  spreadRadius: 2,
-                                                  blurRadius: 1.5,
-                                                  offset: Offset.zero),
-                                            ],
-                                            gradient: LinearGradient(
-                                                begin: Alignment.bottomRight,
-                                                end: Alignment.topLeft,
-                                                colors: [
-                                                  primaryBlue,
-                                                  secondaryBlue,
-                                                  // Colors.white,
-                                                ],
-                                                stops: [
-                                                  0.4,
-                                                  1,
-                                                ]),
-                                            // color: Colors.white,
-                                          ),
-                                          height: 90,
-                                          width: 90,
                                         ),
                                       ],
                                     ),
                                     //Stops Column
-                                    Column(
-                                      children: <Widget>[
-                                        Container(
-                                          padding: EdgeInsets.all(7),
-                                          child: Column(
-                                            children: <Widget>[
-                                              Text(
-                                                "Stops",
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20.0,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                              Expanded(
-                                                  child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Text(
-                                                    ('${Details.stops}'),
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 30,
-                                                        color: Colors.white),
-                                                  )
-                                                ],
-                                              )),
-                                            ],
-                                          ),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15.0),
-                                            color: secondaryBlue,
-
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  color: Colors.grey,
-                                                  spreadRadius: 2,
-                                                  blurRadius: 1.5,
-                                                  offset: Offset.zero),
-                                            ],
-
-                                            gradient: LinearGradient(
-                                                begin: Alignment.bottomRight,
-                                                end: Alignment.topLeft,
-                                                colors: [
-                                                  primaryBlue,
-                                                  secondaryBlue,
-                                                  // Colors.white,
-                                                ],
-                                                stops: [
-                                                  0.4,
-                                                  1,
-                                                ]),
-                                            // color: Colors.white,
-                                          ),
-                                          height: 90,
-                                          width: 90,
-                                        ),
-                                      ],
-                                    ),
-                                    //Fee Column
-                                    Column(
-                                      children: <Widget>[
-                                        Container(
-                                          padding: EdgeInsets.all(7),
-                                          child: Column(
-                                            children: <Widget>[
-                                              Text(
-                                                "Fee",
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20.0,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                              Expanded(
-                                                  child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Text('₦300',
+                                    BrtTap(
+                                      child: Column(
+                                        children: <Widget>[
+                                          Container(
+                                            padding: EdgeInsets.all(7),
+                                            child: Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Stops",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 20.0,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                                Expanded(
+                                                    child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      ('${Details.stops}'),
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(
-                                                        fontSize: 22,
-                                                        color: Colors.white,
-                                                      ))
-                                                ],
-                                              )),
-                                            ],
+                                                          fontSize: 30,
+                                                          color: Colors.white),
+                                                    )
+                                                  ],
+                                                )),
+                                              ],
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15.0),
+                                              color: secondaryBlue,
+
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.grey,
+                                                    spreadRadius: 2,
+                                                    blurRadius: 1.5,
+                                                    offset: Offset.zero),
+                                              ],
+
+                                              gradient: LinearGradient(
+                                                  begin: Alignment.bottomRight,
+                                                  end: Alignment.topLeft,
+                                                  colors: [
+                                                    primaryBlue,
+                                                    secondaryBlue,
+                                                    // Colors.white,
+                                                  ],
+                                                  stops: [
+                                                    0.4,
+                                                    1,
+                                                  ]),
+                                              // color: Colors.white,
+                                            ),
+                                            height: 90,
+                                            width: 90,
                                           ),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15.0),
-                                            color: secondaryBlue,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  color: Colors.grey,
-                                                  spreadRadius: 2,
-                                                  blurRadius: 1.5,
-                                                  offset: Offset.zero),
-                                            ],
-                                            gradient: LinearGradient(
-                                                begin: Alignment.bottomRight,
-                                                end: Alignment.topLeft,
-                                                colors: [
-                                                  primaryBlue,
-                                                  secondaryBlue,
-                                                  // Colors.white,
-                                                ],
-                                                stops: [
-                                                  0.4,
-                                                  1,
-                                                ]),
+                                        ],
+                                      ),
+                                    ),
+                                    //Fee Column
+                                    BrtTap(
+                                      child: Column(
+                                        children: <Widget>[
+                                          Container(
+                                            padding: EdgeInsets.all(7),
+                                            child: Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Fee",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 20.0,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                                Expanded(
+                                                    child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Text('₦300',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                          fontSize: 22,
+                                                          color: Colors.white,
+                                                        ))
+                                                  ],
+                                                )),
+                                              ],
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15.0),
+                                              color: secondaryBlue,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.grey,
+                                                    spreadRadius: 2,
+                                                    blurRadius: 1.5,
+                                                    offset: Offset.zero),
+                                              ],
+                                              gradient: LinearGradient(
+                                                  begin: Alignment.bottomRight,
+                                                  end: Alignment.topLeft,
+                                                  colors: [
+                                                    primaryBlue,
+                                                    secondaryBlue,
+                                                    // Colors.white,
+                                                  ],
+                                                  stops: [
+                                                    0.4,
+                                                    1,
+                                                  ]),
+                                            ),
+                                            height: 90,
+                                            width: 90,
                                           ),
-                                          height: 90,
-                                          width: 90,
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),

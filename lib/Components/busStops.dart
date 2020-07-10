@@ -87,4 +87,34 @@ class BusStops {
     "Argic Terminal": 25,
     "Ikorodu Terminal": 26,
   };
+
+
+  static final Map busStopStatus = {
+    "TBS Terminal": "red",
+    "CMS Terminal": 2,
+    "Leventis": 3,
+    "Costain": 4,
+    "Iponri": 5,
+    "Stadium": 6,
+    "Barracks": 7,
+    "Moshalashi Terminal": 8,
+    "Fadeyi": 9,
+    "Onipanu": 10,
+    "Palmgrove": 11,
+    "Obanikoro": 12,
+    "Anthony": 13,
+    "Idiroko": 14,
+    "Maryland": 15,
+    "New Garage": 16,
+    "Ojota": 17,
+    "Ketu": 18,
+    "Owode Onirun": 19,
+    "Mile 12 Terminal": 20,
+    "Idera": 21,
+    "Irawo": 22,
+    "MajidunAwori": 23,
+    "MajidunOgolunto": 24,
+    "Argic Terminal": 25,
+    "Ikorodu Terminal": 26,
+  };
 }
