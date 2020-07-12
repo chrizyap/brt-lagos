@@ -1,4 +1,5 @@
 import 'package:brtbus/Components/Sidebar/sidebar_layout.dart';
+import 'package:brtbus/Components/showRoute.dart';
 import 'package:brtbus/Components/themes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,11 @@ class _BentoSplashScreenState extends State<BentoSplashScreen> {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => SideBarLayout()));
     });
+
+    // Future.delayed(Duration(seconds: 2), () {
+    //   Navigator.push(
+    //       context, MaterialPageRoute(builder: (context) => ShowRoute()));
+    // });
   }
 
   @override
