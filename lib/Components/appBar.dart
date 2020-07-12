@@ -16,7 +16,7 @@ class BackAppBar extends StatelessWidget {
     return PreferredSize(
       preferredSize: Size.fromHeight(50),
       child: Container(
-        height: 50,
+        height: 100,
         padding: EdgeInsets.only(top: 25),
         // alignment: Alignment.bottomCenter,
         decoration: BoxDecoration(
