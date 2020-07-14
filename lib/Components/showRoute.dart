@@ -53,122 +53,163 @@ class _ShowRoute extends State<ShowRoute> {
                         if (stopListMap.keys.elementAt(index) ==
                             stopListMap.keys.elementAt(0)) {
                           return Container(
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.all(5),
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              gradient: LinearGradient(
-                                  begin: Alignment.bottomCenter,
-                                  end: Alignment.topLeft,
-                                  colors: [
-                                    primaryBlue,
-                                    secondaryBlue,
-                                  ]),
+                            width: 50,
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  alignment: Alignment.center,
+                                  padding: EdgeInsets.all(5),
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    gradient: LinearGradient(
+                                        begin: Alignment.bottomCenter,
+                                        end: Alignment.topLeft,
+                                        colors: [
+                                          primaryBlue,
+                                          secondaryBlue,
+                                        ]),
+                                  ),
+                                ),
+                                Container(
+                                  alignment: Alignment.center,
+                                  padding: EdgeInsets.all(5),
+                                  width: 5,
+                                  height: 60,
+                                  color: Colors.black,
+                                ),
+                              ],
                             ),
                           );
                         } else if (stopListMap.keys.elementAt(index) ==
                             stopListMap.keys.elementAt(25)) {
                           return Container(
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.all(5),
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              gradient: LinearGradient(
-                                  begin: Alignment.bottomCenter,
-                                  end: Alignment.topLeft,
-                                  colors: [
-                                    primaryBlue,
-                                    secondaryBlue,
-                                  ]),
+                            width: 50,
+                            height: 80,
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  alignment: Alignment.center,
+                                  padding: EdgeInsets.all(5),
+                                  width: 5,
+                                  height: 20,
+                                  color: Colors.black,
+                                ),
+                                Container(
+                                  alignment: Alignment.center,
+                                  padding: EdgeInsets.all(5),
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    gradient: LinearGradient(
+                                        begin: Alignment.bottomCenter,
+                                        end: Alignment.topLeft,
+                                        colors: [
+                                          primaryBlue,
+                                          secondaryBlue,
+                                        ]),
+                                  ),
+                                ),
+                              ],
                             ),
                           );
                         } else {
                           return Container(
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.all(5),
-                            width: 25,
-                            height: 25,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: secondaryBlue,
-                                      spreadRadius: 0.5,
-                                      offset: Offset(0.5, 1.0))
-                                ],
-                                color: secondaryBlue),
+                            width: 50,
+                            height: 80,
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  width: 25,
+                                  height: 25,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: secondaryBlue,
+                                            spreadRadius: 0.5,
+                                            offset: Offset(0.5, 1.0))
+                                      ],
+                                      color: secondaryBlue),
+                                ),
+                                Container(
+                                  alignment: Alignment.center,
+                                  padding: EdgeInsets.all(5),
+                                  width: 5,
+                                  height: 55,
+                                  color: Colors.black,
+                                ),
+                              ],
+                            ),
                           );
                         }
                       }
 
                       return BrtTap(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[_setNode()],
-                            ),
-                            Column(
-                              children: <Widget>[
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  padding: EdgeInsets.all(20),
-                                  child: Text(
-                                    '${stopListMap.keys.elementAt(index)}',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  height: 75,
-                                  width:
-                                      MediaQuery.of(context).size.width - 150,
-                                  decoration: BoxDecoration(
-                                    // boxShadow: [BoxShadow(color: Colors.grey, spreadRadius: 1)],
-                                    color: Colors.white,
-
-                                    borderRadius: BorderRadius.circular(12.0),
-                                    // shape: BoxShape.rectangle,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Column(children: <Widget>[
-                                  MirrorAnimation(
-                                      tween: tween,
-                                      duration: 3.seconds,
-                                      builder: (context, child, value) {
-                                        return Container(
-                                          height: 10,
-                                          width: 10,
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.grey,
-                                              gradient: LinearGradient(
-                                                  begin: Alignment.topCenter,
-                                                  end: Alignment.bottomCenter,
-                                                  colors: [
-                                                    value.get(_BgProps.color1),
-                                                    value.get(_BgProps.color2)
-                                                  ])),
-                                        );
-                                      }),
-                                  SizedBox(height: 5),
-                                  Text("CLEAR",
+                        child: Container(
+                          // color: Colors.red,
+                          // decoration: BoxDecoration(
+                          //   border: Border.all(
+                          //     color: Colors.black,
+                          //   ),
+                          // ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              Column(
+                                children: <Widget>[_setNode()],
+                              ),
+                              Column(
+                                children: <Widget>[
+                                  Container(
+                                    // alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      '${stopListMap.keys.elementAt(index)}',
                                       style: TextStyle(
-                                          color: Colors.grey, fontSize: 8))
-                                ])
-                              ],
-                            ),
-                          ],
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    height: 75,
+                                    width:
+                                        MediaQuery.of(context).size.width - 150,
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: <Widget>[
+                                  Column(children: <Widget>[
+                                    MirrorAnimation(
+                                        tween: tween,
+                                        duration: 3.seconds,
+                                        builder: (context, child, value) {
+                                          return Container(
+                                            height: 10,
+                                            width: 10,
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.grey,
+                                                gradient: LinearGradient(
+                                                    begin: Alignment.topCenter,
+                                                    end: Alignment.bottomCenter,
+                                                    colors: [
+                                                      value
+                                                          .get(_BgProps.color1),
+                                                      value.get(_BgProps.color2)
+                                                    ])),
+                                          );
+                                        }),
+                                    SizedBox(height: 5),
+                                    Text("CLEAR",
+                                        style: TextStyle(
+                                            color: Colors.grey, fontSize: 8))
+                                  ])
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
@@ -190,53 +231,97 @@ class _ShowRoute extends State<ShowRoute> {
             Widget _setNode() {
               if (stopListMap2[index] == stopListMap2.values.elementAt(1)) {
                 return Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.all(5),
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topLeft,
-                        colors: [
-                          primaryBlue,
-                          secondaryBlue,
-                        ]),
+                  width: 50,
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.all(5),
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topLeft,
+                              colors: [
+                                primaryBlue,
+                                secondaryBlue,
+                              ]),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.all(5),
+                        width: 5,
+                        height: 60,
+                        color: Colors.black,
+                      ),
+                    ],
                   ),
                 );
               } else if (stopListMap2[index - 1] == stopListMap2.values.last) {
                 return Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.all(5),
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topLeft,
-                        colors: [
-                          primaryBlue,
-                          secondaryBlue,
-                        ]),
+                  width: 50,
+                  height: 80,
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.all(5),
+                        width: 5,
+                        height: 20,
+                        color: Colors.black,
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.all(5),
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topLeft,
+                              colors: [
+                                primaryBlue,
+                                secondaryBlue,
+                              ]),
+                        ),
+                      ),
+                    ],
                   ),
                 );
               } else {
                 return Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.all(5),
-                  width: 25,
-                  height: 25,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                            color: secondaryBlue,
-                            spreadRadius: 0.5,
-                            offset: Offset(0.5, 1.0))
-                      ],
-                      color: secondaryBlue),
+                  width: 50,
+                  height: 80,
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.all(5),
+                        width: 25,
+                        height: 25,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: secondaryBlue,
+                                  spreadRadius: 0.5,
+                                  offset: Offset(0.5, 1.0))
+                            ],
+                            color: secondaryBlue),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.all(5),
+                        width: 5,
+                        height: 55,
+                        color: Colors.black,
+                      ),
+                    ],
+                  ),
                 );
               }
             }
@@ -455,17 +540,19 @@ class _ShowRoute extends State<ShowRoute> {
             } else {
               return BrtTap(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
                   children: <Widget>[
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[_setNode()],
                     ),
+                    SizedBox(width: 10),
                     Column(
                       children: <Widget>[
                         Container(
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.all(20),
+                          // alignment: Alignment.centerLeft,
+                          // padding: EdgeInsets.all(20),
                           child: Text(
                             '${stopListMap2[index - 1]}',
                             style: TextStyle(
@@ -476,40 +563,31 @@ class _ShowRoute extends State<ShowRoute> {
                           height: 75,
                           width: MediaQuery.of(context).size.width - 150,
                           decoration: BoxDecoration(
-                            // boxShadow: [BoxShadow(color: Colors.grey, spreadRadius: 1)],
-                            color: Colors.white,
+                              // boxShadow: [BoxShadow(color: Colors.grey, spreadRadius: 1)],
+                              // color: Colors.red,
 
-                            borderRadius: BorderRadius.circular(12.0),
-                            // shape: BoxShape.rectangle,
-                          ),
+                              // borderRadius: BorderRadius.circular(12.0),
+                              // shape: BoxShape.rectangle,
+                              ),
                         ),
                       ],
                     ),
                     Expanded(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Container(
                             alignment: Alignment.center,
-                            padding: EdgeInsets.all(5),
-                            width: 50,
-                            height: 75,
-                            // color: Colors.white,
+                            width: 100,
                             child: Text(
                               '${dateFormatter.format(now.add(Duration(minutes: 5 * index)))}',
-                              // textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 14,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: Colors.white,
-                              // boxShadow: [
-                              //   BoxShadow(color: Colors.grey, spreadRadius: 1)
-                              // ]
                             ),
                           ),
                         ],
