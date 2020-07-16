@@ -178,35 +178,42 @@ class _ShowRoute extends State<ShowRoute> {
                                   ),
                                 ],
                               ),
-                              Column(
-                                children: <Widget>[
-                                  Column(children: <Widget>[
-                                    MirrorAnimation(
-                                        tween: tween,
-                                        duration: 3.seconds,
-                                        builder: (context, child, value) {
-                                          return Container(
-                                            height: 10,
-                                            width: 10,
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.grey,
-                                                gradient: LinearGradient(
-                                                    begin: Alignment.topCenter,
-                                                    end: Alignment.bottomCenter,
-                                                    colors: [
-                                                      value
-                                                          .get(_BgProps.color1),
-                                                      value.get(_BgProps.color2)
-                                                    ])),
-                                          );
-                                        }),
-                                    SizedBox(height: 5),
-                                    Text("CLEAR",
-                                        style: TextStyle(
-                                            color: Colors.grey, fontSize: 8))
-                                  ])
-                                ],
+                              Container(
+                                padding: EdgeInsets.only(right: 5),
+                                height: 75,
+                                child: Column(
+                                  children: <Widget>[
+                                    Column(children: <Widget>[
+                                      MirrorAnimation(
+                                          tween: tween,
+                                          duration: 3.seconds,
+                                          builder: (context, child, value) {
+                                            return Container(
+                                              height: 10,
+                                              width: 10,
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.grey,
+                                                  gradient: LinearGradient(
+                                                      begin:
+                                                          Alignment.topCenter,
+                                                      end: Alignment
+                                                          .bottomCenter,
+                                                      colors: [
+                                                        value.get(
+                                                            _BgProps.color1),
+                                                        value.get(
+                                                            _BgProps.color2)
+                                                      ])),
+                                            );
+                                          }),
+                                      SizedBox(height: 5),
+                                      Text("CLEAR",
+                                          style: TextStyle(
+                                              color: Colors.grey, fontSize: 8))
+                                    ])
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -540,14 +547,11 @@ class _ShowRoute extends State<ShowRoute> {
             } else {
               return BrtTap(
                 child: Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                   children: <Widget>[
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[_setNode()],
                     ),
-                    SizedBox(width: 10),
                     Column(
                       children: <Widget>[
                         Container(
@@ -562,64 +566,60 @@ class _ShowRoute extends State<ShowRoute> {
                           ),
                           height: 75,
                           width: MediaQuery.of(context).size.width - 150,
-                          decoration: BoxDecoration(
-                              // boxShadow: [BoxShadow(color: Colors.grey, spreadRadius: 1)],
-                              // color: Colors.red,
-
-                              // borderRadius: BorderRadius.circular(12.0),
-                              // shape: BoxShape.rectangle,
-                              ),
                         ),
                       ],
                     ),
-                    Expanded(
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            alignment: Alignment.center,
-                            width: 100,
-                            child: Text(
-                              '${dateFormatter.format(now.add(Duration(minutes: 5 * index)))}',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
+                    // SizedBox(width: 10),
+                    Column(
+                      children: <Widget>[
+                        Container(
+                          // alignment: Alignment.center,
+                          // width: 100,
+                          height: 75,
+                          child: Text(
+                            '${dateFormatter.format(now.add(Duration(minutes: 5 * index)))}',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
-                        ],
-                      ),
+                          // color: Colors.red
+                        ),
+                      ],
                     ),
+                    SizedBox(width: 10),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Column(children: <Widget>[
-                          MirrorAnimation(
-                              tween: tween,
-                              duration: 3.seconds,
-                              builder: (context, child, value) {
-                                return Container(
-                                  height: 10,
-                                  width: 10,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.grey,
-                                      gradient: LinearGradient(
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                          colors: [
-                                            value.get(_BgProps.color1),
-                                            value.get(_BgProps.color2)
-                                          ])),
-                                );
-                              }),
-                          SizedBox(height: 5),
-                          Text("CLEAR",
-                              style: TextStyle(color: Colors.grey, fontSize: 8))
-                        ])
+                        Container(
+                          height: 75,
+                          child: Column(children: <Widget>[
+                            MirrorAnimation(
+                                tween: tween,
+                                duration: 3.seconds,
+                                builder: (context, child, value) {
+                                  return Container(
+                                    height: 10,
+                                    width: 10,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.grey,
+                                        gradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [
+                                              value.get(_BgProps.color1),
+                                              value.get(_BgProps.color2)
+                                            ])),
+                                  );
+                                }),
+                            SizedBox(height: 5),
+                            Text("CLEAR",
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 8))
+                          ]),
+                        )
                       ],
                     ),
                   ],

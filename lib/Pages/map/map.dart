@@ -44,7 +44,10 @@ class _MyAppState extends State<MyHomePage>
       body: Stack(
         children: <Widget>[
           GoogleMaps(),
-          SearchWidget(),
+          SearchWidget(onSelected: () {
+            setState(() {});
+            print('setting state');
+          }),
           SideBar(),
           Visibility(
             visible: ButtonStream.isVisible,

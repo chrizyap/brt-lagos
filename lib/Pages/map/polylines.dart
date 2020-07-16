@@ -63,12 +63,11 @@ class Polylines {
     markers.add(newMarker);
   }
 
-  static void createRoute() {
+  static Future<void> createRoute() async {
     polylineCoordinates.clear();
-    getPolyline();
+    await getPolyline();
     GoogleMaps.showButton();
     ButtonStream.isVisible = true;
-
     calculateDistanceKM();
     calculateDistance();
     Details.noOfStops();

@@ -19,6 +19,8 @@ class Texts {
 }
 
 class SearchWidget extends StatelessWidget {
+  final Function onSelected;
+  SearchWidget({this.onSelected});
   static AnimationController controller;
   @override
   Widget build(BuildContext context) {
@@ -114,7 +116,8 @@ class SearchWidget extends StatelessWidget {
                             BusStops.busStopMap[result] !=
                                 Polylines.fromMarker.position) {
                           Polylines.whereToSelected();
-                          Polylines.createRoute();
+                          await Polylines.createRoute();
+                          onSelected();
                         } else {
                           _showSnackBar();
                           print("Snackbar Displayed");
